@@ -9,21 +9,24 @@
     "Aelpecyem"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Aelpecyem/Elementaristics"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/elementaristics/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "de.aelpecyem.Elementaristics"
+      "de.aelpecyem.elementaristics.common.CommonProxy"
+    ],
+    "client": [
+      "de.aelpecyem.elementaristics.client.ClientProxy"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "elementaristics.mixins.json",
+    "elementaristics.client_mixins.json"
   ],
 
   "depends": {

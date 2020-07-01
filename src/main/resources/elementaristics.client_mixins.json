@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.aelpecyem.elementaristics.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "HUDMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
