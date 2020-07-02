@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.common.handler.stats;
+package de.aelpecyem.elementaristics.common.feature.stats;
 
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -12,6 +12,10 @@ public class AscensionPath {
     public AscensionPath(String name) {
         this.name = name;
         PATHS.put(name, this);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getMaxMagan(PlayerEntity player, IElemStats stats){

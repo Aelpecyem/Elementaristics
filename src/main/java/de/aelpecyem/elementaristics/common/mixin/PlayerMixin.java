@@ -1,13 +1,11 @@
 package de.aelpecyem.elementaristics.common.mixin;
 
-import de.aelpecyem.elementaristics.common.handler.stats.IElemStats;
+import de.aelpecyem.elementaristics.common.feature.stats.IElemStats;
 import de.aelpecyem.elementaristics.lib.StatHelper;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

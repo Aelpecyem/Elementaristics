@@ -3,19 +3,17 @@ package de.aelpecyem.elementaristics.registry;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.aelpecyem.elementaristics.lib.Constants;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import org.lwjgl.opengl.GL11;
 
 public class ModParticles {
     public static class RenderTypes{
-        public static final Identifier GLOW_PARTICLE_TEX = new Identifier(Constants.MOD_NAMESPACE, "textures/item/liber_elementium.png");
+        public static final Identifier GLOW_PARTICLE_TEX = new Identifier(Constants.MODID, "textures/item/liber_elementium.png");
 
         public static ParticleTextureSheet BRIGHT = new ParticleTextureSheet() {
             @Override

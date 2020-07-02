@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.common.handler.stats;
+package de.aelpecyem.elementaristics.common.feature.stats;
 
 public interface IElemStats {
     //other stats: ascension route (String), ascension stage (Byte):

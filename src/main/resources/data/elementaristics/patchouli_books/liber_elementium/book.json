@@ -1,0 +1,7 @@
+{
+  "name": "elementaristics.book.name",
+  "landing_text": "elementaristics.book.landing",
+  "version": 1,
+  "dont_generate_book": true,
+  "custom_book_item": "elementaristics:liber_elementium"
+}

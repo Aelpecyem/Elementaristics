@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.lib;
 
-import de.aelpecyem.elementaristics.common.handler.stats.AscensionPath;
-import de.aelpecyem.elementaristics.common.handler.stats.IElemStats;
+import de.aelpecyem.elementaristics.common.feature.stats.AscensionPath;
+import de.aelpecyem.elementaristics.common.feature.stats.IElemStats;
 import de.aelpecyem.elementaristics.registry.ModRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -12,8 +12,10 @@ public class StatHelper {
             setMagan((int) getMagan(playerEntity) + (getBaseRegenValue(playerEntity) * modifier), playerEntity);
         }
     }
-    public static void setMagan(int value, PlayerEntity player){
-        ((IElemStats) player).setMagan(MathHelper.clamp(value, 0, getMaxMagan(player)));
+    public static int setMagan(int value, PlayerEntity player){
+        int maganAdded = MathHelper.clamp(value, 0, getMaxMagan(player));
+        ((IElemStats) player).setMagan(maganAdded);
+        return maganAdded;
     }
 
     public static float getMagan(PlayerEntity player){
