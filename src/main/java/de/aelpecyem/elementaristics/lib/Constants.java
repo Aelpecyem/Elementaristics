@@ -9,9 +9,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Constants {
     public static String MODID = "elementaristics";
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final ItemGroup ELEMENTARISTICS_GROUP = FabricItemGroupBuilder.build(
             new Identifier(MODID, "group"),
             () -> new ItemStack(ModObjects.LIBER_ELEMENTIUM));

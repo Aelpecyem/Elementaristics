@@ -27,11 +27,6 @@ public abstract class PlayerMixin extends LivingEntity implements IElemStats {
         if (getSleepTimer() > 0 && getSleepTimer() % 10 == 0){
             StatHelper.regenMagan((PlayerEntity) (Object) this, 10);
         }
-        if (!isSneaking()){
-            setMagan(getMagan() - 1);
-        }else {
-            setMagan(getMagan() + 1);
-        }
     }
     @Shadow
     public abstract int getSleepTimer();

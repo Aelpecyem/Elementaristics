@@ -1,0 +1,132 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_0"
+      }
+    },
+    {
+      "when": {
+        "age": "1"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_1"
+      }
+    },
+    {
+      "when": {
+        "age": "2"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_2"
+      }
+    },
+    {
+      "when": {
+        "age": "3"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_3"
+      }
+    },
+    {
+      "when": {
+        "age": "4"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_4"
+      }
+    },
+
+    {
+      "when": {
+        "south": "true",
+        "age": "3"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "age": "3"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "age": "3"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "age": "3"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+
+    {
+      "when": {
+        "south": "true",
+        "age": "4"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_4",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "age": "4"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_4",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "age": "4"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_4",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "age": "4"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_4",
+        "y": 270,
+        "uvlock": true
+      }
+    }
+  ]
+}

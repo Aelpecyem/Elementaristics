@@ -4,6 +4,9 @@ import de.aelpecyem.elementaristics.common.block.BlockMorningGloryPlant;
 import de.aelpecyem.elementaristics.common.item.ItemLiberElementium;
 import de.aelpecyem.elementaristics.lib.Util;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.server.BlockTagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 

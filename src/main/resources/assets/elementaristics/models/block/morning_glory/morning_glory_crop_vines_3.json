@@ -1,0 +1,39 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"texture_size": [64, 64],
+	"textures": {
+		"particle": "elementaristics:block/morning_glory/morning_glory_crop_3"
+	},
+	"elements": [
+		{
+			"name": "tendril01",
+			"from": [0, 11, 15.9],
+			"to": [16, 17, 15.9],
+			"rotation": {"angle": 0, "axis": "z", "origin": [0, 17, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 1.5], "texture": "#particle"},
+				"east": {"uv": [0, 0, 0, 1.5], "texture": "#particle"},
+				"south": {"uv": [0, 0, 4, 1.5], "texture": "#particle"},
+				"west": {"uv": [4, 0, 4, 1.5], "texture": "#particle"},
+				"up": {"uv": [4, 0, 0, 0], "texture": "#particle"},
+				"down": {"uv": [8, 0, 4, 0], "texture": "#particle"}
+			}
+		},
+		{
+			"name": "tendril00",
+			"from": [1, 5.7, 17.4],
+			"to": [15, 17.7, 17.4],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [0, 18, 0]},
+			"faces": {
+				"north": {"uv": [0, 1.75, 3.5, 4.75], "texture": "#particle"},
+				"east": {"uv": [0, 1.75, 0, 4.75], "texture": "#particle"},
+				"south": {"uv": [0, 1.75, 3.5, 4.75], "texture": "#particle"},
+				"west": {"uv": [3.5, 1.75, 3.5, 4.75], "texture": "#particle"},
+				"up": {"uv": [3.5, 1.75, 0, 1.75], "texture": "#particle"},
+				"down": {"uv": [7, 1.75, 3.5, 1.75], "texture": "#particle"}
+			}
+		}
+	]
+}

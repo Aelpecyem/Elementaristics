@@ -1,9 +1,11 @@
 package de.aelpecyem.elementaristics.common.block;
 
 import de.aelpecyem.elementaristics.lib.Constants;
+import de.aelpecyem.elementaristics.registry.ModRegistry;
+import javafx.beans.property.IntegerProperty;
 import net.minecraft.block.*;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ShearsItem;
@@ -17,6 +19,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -24,6 +28,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
@@ -32,19 +38,41 @@ import java.util.Random;
 
 import static net.minecraft.block.ConnectingBlock.*;
 
-public class BlockMorningGloryPlant extends PlantBlock {
-    public static final BooleanProperty MATURE = BooleanProperty.of("mature");
+public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
+    public static final IntProperty AGE = IntProperty.of("age", 0, 4);
     public static final Map<Direction, BooleanProperty> FACING_PROPERTIES = ConnectingBlock.FACING_PROPERTIES.entrySet().stream().filter((entry) -> entry.getKey() != Direction.DOWN && entry.getKey() != Direction.UP).collect(Util.toMap());
+    private static final VoxelShape[] AGE_TO_SHAPE = new VoxelShape[]{
+            Block.createCuboidShape(0, 0, 0, 16, 3, 16),
+            Block.createCuboidShape(0, 0, 0, 16, 5, 16),
+            Block.createCuboidShape(0, 0, 0, 16, 8, 16),
+            Block.createCuboidShape(0, 0, 0, 16, 8, 16),
+            Block.createCuboidShape(0, 0, 0, 16, 8, 16)
+    };
 
     public BlockMorningGloryPlant() {
-        super(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
-        this.setDefaultState(this.stateManager.getDefaultState().with(SOUTH, false).with(NORTH, false).with(EAST, false).with(WEST, false).with(MATURE, false));
+        super(StatusEffects.BLINDNESS, 20, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
+        this.setDefaultState(this.stateManager.getDefaultState().with(SOUTH, false).with(NORTH, false).with(EAST, false).with(WEST, false).with(AGE, 0));
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return AGE_TO_SHAPE[getAge(state)];
+    }
+
+    @Override
+    public OffsetType getOffsetType() {
+        return OffsetType.NONE;
+    }
+
+    @Override
+    public StatusEffect getEffectInStew() {
+        return ModRegistry.INTOXICATED;
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(MATURE, EAST, SOUTH, WEST, NORTH);
+        builder.add(AGE, EAST, SOUTH, WEST, NORTH);
     }
 
 
@@ -55,7 +83,7 @@ public class BlockMorningGloryPlant extends PlantBlock {
             LootTable table = world.getServer().getLootManager().getTable(new Identifier(Constants.MODID, "blocks/morning_glory_sheared"));
             LootContext.Builder builder = (new LootContext.Builder((ServerWorld) world)).random(world.random).parameter(LootContextParameters.POSITION, pos).parameter(LootContextParameters.TOOL, player.getStackInHand(hand)).optionalParameter(LootContextParameters.THIS_ENTITY, player).parameter(LootContextParameters.BLOCK_STATE, state);
             table.generateLoot(builder.build(LootContextTypes.BLOCK)).forEach(stack -> dropStack(world, pos, stack));
-            world.setBlockState(pos, state.with(MATURE, false));
+            world.setBlockState(pos, state.with(AGE, 0));
             return ActionResult.SUCCESS;
         }
         return super.onUse(state, world, pos, player, hand, hit);
@@ -63,7 +91,7 @@ public class BlockMorningGloryPlant extends PlantBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return updateAttachedSides(getDefaultState().with(MATURE, false), ctx.getWorld(), ctx.getBlockPos());
+        return updateAttachedSides(getDefaultState().with(AGE, 0), ctx.getWorld(), ctx.getBlockPos());
     }
 
     @Override
@@ -83,7 +111,7 @@ public class BlockMorningGloryPlant extends PlantBlock {
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (isLightRight(world, pos)) {
             if (!isMature(state) && isAttachedToSolidBlock(state)){
-                world.setBlockState(pos, state.with(MATURE, true));
+                world.setBlockState(pos, state.with(AGE, getAge(state) + 1));
             }
         }
     }
@@ -102,11 +130,30 @@ public class BlockMorningGloryPlant extends PlantBlock {
         return i;
     }
 
+    public int getAge(BlockState state){
+        return state.get(AGE);
+    }
+
     public boolean isMature(BlockState state){
-        return state.get(MATURE);
+        return state.get(AGE) >= 4;
     }
 
     public boolean isLightRight(World world, BlockPos pos){
         return world.getBaseLightLevel(pos, 0) >= 5 && world.getBaseLightLevel(pos, 0) <= 12;
+    }
+
+    @Override
+    public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
+        return !isMature(state) && (getAge(state) < 3 || isAttachedToSolidBlock(state));
+    }
+
+    @Override
+    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+        return getAge(state) < 3 || isAttachedToSolidBlock(state);
+    }
+
+    @Override
+    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+        world.setBlockState(pos, state.with(AGE, getAge(state) + 1));
     }
 }
