@@ -15,6 +15,7 @@ public class ModRegistry {
         Util.register(Registry.STATUS_EFFECT, "intoxicated", INTOXICATED);
         STANDARD_PATH = new AscensionPath("standard");
         ModObjects.init();
+        ModWorld.init();
         ModCommands.registerCommands();
     }
 }

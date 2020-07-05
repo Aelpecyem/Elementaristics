@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "elementaristics:block/morning_glory/vines/morning_glory_vine_2"
+  }
+}

@@ -1,0 +1,473 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "age": "0",
+        "finished": "false",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0"
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "false",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0"
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "false",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1"
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "false",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1"
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "false",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_2"
+      }
+    },
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_2",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "false",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "false",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "false",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "false",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "false",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_2",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "false",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "false",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "false",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "false",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_1",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "false",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_2",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0"
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0"
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1"
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1"
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "true",
+        "south": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_2"
+      }
+    },
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_2",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "true",
+        "north": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_2",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+
+
+    {
+      "when": {
+        "age": "0",
+        "finished": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "1",
+        "finished": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_0",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "2",
+        "finished": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "3",
+        "finished": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_1",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "age": "4",
+        "finished": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "elementaristics:block/morning_glory/vines/morning_glory_vine_end_2",
+        "y": 270,
+        "uvlock": true
+      }
+    }
+  ]
+}

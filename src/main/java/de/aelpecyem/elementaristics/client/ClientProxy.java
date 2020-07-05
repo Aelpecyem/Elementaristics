@@ -10,6 +10,7 @@ public class ClientProxy implements ClientModInitializer{
     @Override
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.MORNING_GLORY, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.MORNING_GLORY_VINES, RenderLayer.getCutout());
         ClientEventHandler.addEvents();
     }
 }

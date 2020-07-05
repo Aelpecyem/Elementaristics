@@ -47,8 +47,7 @@
         "age": "3"
       },
       "apply": {
-        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3",
-        "uvlock": true
+        "model": "elementaristics:block/morning_glory/morning_glory_crop_vines_3"
       }
     },
     {

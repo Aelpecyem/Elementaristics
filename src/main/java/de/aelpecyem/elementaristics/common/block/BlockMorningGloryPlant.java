@@ -1,6 +1,7 @@
 package de.aelpecyem.elementaristics.common.block;
 
 import de.aelpecyem.elementaristics.lib.Constants;
+import de.aelpecyem.elementaristics.registry.ModObjects;
 import de.aelpecyem.elementaristics.registry.ModRegistry;
 import javafx.beans.property.IntegerProperty;
 import net.minecraft.block.*;
@@ -32,6 +33,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
 
 import java.util.Map;
 import java.util.Random;
@@ -50,7 +52,7 @@ public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
     };
 
     public BlockMorningGloryPlant() {
-        super(StatusEffects.BLINDNESS, 20, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
+        super(ModRegistry.INTOXICATED, 20, AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP));
         this.setDefaultState(this.stateManager.getDefaultState().with(SOUTH, false).with(NORTH, false).with(EAST, false).with(WEST, false).with(AGE, 0));
     }
 
@@ -62,11 +64,6 @@ public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
     @Override
     public OffsetType getOffsetType() {
         return OffsetType.NONE;
-    }
-
-    @Override
-    public StatusEffect getEffectInStew() {
-        return ModRegistry.INTOXICATED;
     }
 
     @Override
@@ -86,7 +83,7 @@ public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
             world.setBlockState(pos, state.with(AGE, 0));
             return ActionResult.SUCCESS;
         }
-        return super.onUse(state, world, pos, player, hand, hit);
+        return ActionResult.PASS;
     }
 
     @Override
@@ -99,28 +96,33 @@ public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
         return super.getStateForNeighborUpdate(updateAttachedSides(state, world, pos), direction, newState, world, pos, posFrom);
     }
 
-    public BlockState updateAttachedSides(BlockState state, WorldAccess world, BlockPos pos){
+    public BlockState updateAttachedSides(BlockState state, WorldView world, BlockPos pos){
         for (Direction direction : FACING_PROPERTIES.keySet()) state = state.with(FACING_PROPERTIES.get(direction), isBlockQualifiedForAttachment(world, world.getBlockState(pos.offset(direction)), pos, direction));
         return state;
     }
 
-    public boolean isBlockQualifiedForAttachment(WorldAccess world, BlockState state, BlockPos pos, Direction direction){
-        return state.isSolidBlock(world, pos) && state.isSideSolidFullSquare(world, pos, direction);
+    public boolean isBlockQualifiedForAttachment(WorldView world, BlockState state, BlockPos pos, Direction direction){
+        return state.isSideSolidFullSquare(world, pos, direction);
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (isLightRight(world, pos)) {
-            if (!isMature(state) && isAttachedToSolidBlock(state)){
+        if (isLightRight(world, pos) && random.nextBoolean()) {
+            if (!isMature(state)){
                 world.setBlockState(pos, state.with(AGE, getAge(state) + 1));
+            } else if (canGrowVine(state, world, pos)){
+                growVine(state, world, pos, random);
             }
         }
     }
 
-    public boolean isAttachedToSolidBlock(BlockState state) {
+    protected boolean canGrowVine(BlockState state, BlockView world, BlockPos pos){
+        return world.getBlockState(pos.up()).isAir() && isAttachedToSolidBlock(state);
+    }
+    protected boolean isAttachedToSolidBlock(BlockState state) {
         return this.getAdjacentBlockCount(state) > 0;
     }
 
-    private int getAdjacentBlockCount(BlockState state) {
+    protected int getAdjacentBlockCount(BlockState state) {
         int i = 0;
         for (BooleanProperty booleanProperty : FACING_PROPERTIES.values()) {
             if (state.get(booleanProperty)) {
@@ -130,30 +132,40 @@ public class BlockMorningGloryPlant extends FlowerBlock implements Fertilizable{
         return i;
     }
 
-    public int getAge(BlockState state){
+    public static int getAge(BlockState state){
         return state.get(AGE);
     }
 
-    public boolean isMature(BlockState state){
+    public static boolean isMature(BlockState state){
         return state.get(AGE) >= 4;
     }
 
-    public boolean isLightRight(World world, BlockPos pos){
-        return world.getBaseLightLevel(pos, 0) >= 5 && world.getBaseLightLevel(pos, 0) <= 12;
+    public static boolean isLightRight(World world, BlockPos pos){
+        return world.getBaseLightLevel(pos, 0) >= 8;
     }
 
     @Override
     public boolean isFertilizable(BlockView world, BlockPos pos, BlockState state, boolean isClient) {
-        return !isMature(state) && (getAge(state) < 3 || isAttachedToSolidBlock(state));
+        return (!isMature(state) || canGrowVine(state, world, pos));
     }
 
     @Override
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
-        return getAge(state) < 3 || isAttachedToSolidBlock(state);
+        return (!isMature(state) || canGrowVine(state, world, pos)) && random.nextBoolean();
     }
 
     @Override
     public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+        if (!isMature(state))
         world.setBlockState(pos, state.with(AGE, getAge(state) + 1));
+        else if (random.nextDouble() < 0.25 && canGrowVine(state, world, pos)){
+            growVine(state, world, pos, random);
+        }
+    }
+
+    protected void growVine(BlockState originState, ServerWorld world, BlockPos pos, Random random){
+        BlockPos targetPos = pos.up();
+        BlockState placedState = updateAttachedSides(ModObjects.MORNING_GLORY_VINES.getDefaultState().with(AGE, 0).with(BlockMorningGloryVine.FINISHED, world.random.nextFloat() < 0.3F || !world.getBlockState(targetPos.up()).isAir()), world, targetPos);
+        if (isAttachedToSolidBlock(placedState)) world.setBlockState(targetPos, placedState);
     }
 }

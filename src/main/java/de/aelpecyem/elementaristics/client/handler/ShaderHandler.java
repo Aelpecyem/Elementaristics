@@ -28,7 +28,7 @@ public class ShaderHandler {
 
     public static void handleShaders(MinecraftClient mc){
         if (DummyConfig.shaders){
-            handleShader(mc.player.hasStatusEffect(ModRegistry.INTOXICATED), SHADER_INTOX, mc);
+            //handleShader(mc.player.hasStatusEffect(ModRegistry.INTOXICATED), SHADER_INTOX, mc);
         }
     }
 
