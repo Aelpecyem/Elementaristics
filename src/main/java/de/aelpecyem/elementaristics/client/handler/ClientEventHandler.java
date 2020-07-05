@@ -7,7 +7,6 @@ import de.aelpecyem.elementaristics.lib.StatHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.ShaderEffect;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
@@ -34,15 +33,17 @@ public class ClientEventHandler{
             PlayerEntity player = MinecraftClient.getInstance().player;
             float mult = Math.min(StatHelper.getMagan(player) / (float) StatHelper.getMaxMagan(player), 1);
             if (mult > 0) {
-                int width = (int)(mult * 79F);
+                int width = (int) (mult * 79F);
                 int posY = minecraft.getWindow().getScaledHeight() - 33;
-                int posX =  minecraft.getWindow().getScaledWidth() / 2 - 91;
+                int posX = minecraft.getWindow().getScaledWidth() / 2 - 91;
                 MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(Constants.MODID, "textures/gui/hud_elements.png"));
                 if (width > 0) {
                     drawTexture(matrixStack, posX, posY, 2, 0, width, 9, Constants.Colors.MAGAN_COLOR, 0.9F);
-                    drawTexture(matrixStack, posX + 182 - width, posY, 180- width, 0, width, 9, Constants.Colors.MAGAN_COLOR, 0.9F);
+                    drawTexture(matrixStack, posX + 182 - width, posY, 180 - width, 0, width, 9, Constants.Colors.MAGAN_COLOR, 0.9F);
                 }
             }
+
+            ShaderHandler.renderShaders(matrixStack, parTick);
         });
     }
 

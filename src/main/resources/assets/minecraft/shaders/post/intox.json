@@ -1,0 +1,79 @@
+{
+  "targets": [
+    "swap",
+    "previous"
+  ],
+  "passes": [
+    {
+      "name": "phosphor",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "PrevSampler",
+          "id": "previous"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "Phosphor",
+          "values": [
+            0.8,
+            0.4,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "previous"
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    },
+    {
+      "name": "blur",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "uniforms": [
+        {
+          "name": "BlurDir",
+          "values": [
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "name": "Radius",
+          "values": [
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blur",
+      "intarget": "swap",
+      "outtarget": "minecraft:main",
+      "uniforms": [
+        {
+          "name": "BlurDir",
+          "values": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Radius",
+          "values": [
+            2.0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -6,15 +6,11 @@ import de.aelpecyem.elementaristics.lib.DummyConfig;
 import de.aelpecyem.elementaristics.registry.ModRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderEffect;
-import net.minecraft.client.util.GlAllocationUtils;
-import net.minecraft.client.util.GlfwUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class ShaderHandler {
     public static final HashMap<Integer, ShaderEffect> ACTIVE_SHADERS = new HashMap<>();
@@ -24,11 +20,11 @@ public class ShaderHandler {
     private static int oldDisplayHeight = 0;
 
     public static final int SHADER_INTOX = 0;
-    public static Identifier[] shaders = new Identifier[]{new Identifier("shaders/post/phosophor.json")};
+    public static Identifier[] shaders = new Identifier[]{new Identifier("shaders/post/intox.json")};
 
     public static void handleShaders(MinecraftClient mc){
         if (DummyConfig.shaders){
-            //handleShader(mc.player.hasStatusEffect(ModRegistry.INTOXICATED), SHADER_INTOX, mc);
+            handleShader(mc.player.hasStatusEffect(ModRegistry.INTOXICATED), SHADER_INTOX, mc);
         }
     }
 
@@ -57,8 +53,6 @@ public class ShaderHandler {
 
     public static void renderShaders(MatrixStack ms, float parTick){
         updateShaderFrameBuffers(MinecraftClient.getInstance());
-       // GL11.glMatrixMode(5890);
-        //GL11.glLoadIdentity();
         ACTIVE_SHADERS.forEach((integer, shaderEffect) -> {
             shaderEffect.render(parTick);
         });

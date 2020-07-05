@@ -1,19 +1,14 @@
 package de.aelpecyem.elementaristics.registry;
 
-import com.google.common.collect.ImmutableList;
 import de.aelpecyem.elementaristics.common.block.BlockMorningGloryPlant;
-import de.aelpecyem.elementaristics.common.block.BlockMorningGloryVine;
 import de.aelpecyem.elementaristics.lib.DummyConfig;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.decorator.ChanceDecoratorConfig;
-import net.minecraft.world.gen.decorator.CountDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FlowerFeature;
 import net.minecraft.world.gen.feature.RandomPatchFeatureConfig;
-import net.minecraft.world.gen.feature.RandomRandomFeatureConfig;
 import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
@@ -25,7 +20,7 @@ public class ModWorld {
 
     private static void addVanillaBiomeFeatures() {
         Registry.BIOME.forEach(biome -> {
-            if (biome.getCategory() == Biome.Category.FOREST){
+            if (biome.getCategory() == Biome.Category.JUNGLE || biome.getCategory() == Biome.Category.FOREST) {
                 biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(MORNING_GLORY_CONFIG).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(DummyConfig.morning_glory_chance))));
             }
         });
