@@ -1,5 +1,6 @@
 package de.aelpecyem.elementaristics.lib;
 
+import de.aelpecyem.elementaristics.common.entity.EntityNexus;
 import de.aelpecyem.elementaristics.registry.ModObjects;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.entity.data.DataTracker;
@@ -11,6 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class Constants {
     public static String MODID = "elementaristics";
@@ -40,6 +44,10 @@ public class Constants {
         public static final TrackedData<Integer> MAGAN = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Byte> ASCENSION_STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BYTE);
         public static final TrackedData<String> ASCENSION_PATH = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.STRING);
+
+        public static final TrackedData<Float> INSTABILITY = DataTracker.registerData(EntityNexus.class, TrackedDataHandlerRegistry.FLOAT);
+        public static final TrackedData<String> CURRENT_RITE = DataTracker.registerData(EntityNexus.class, TrackedDataHandlerRegistry.STRING);
+        public static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(EntityNexus.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     }
 
     public static class Colors {
