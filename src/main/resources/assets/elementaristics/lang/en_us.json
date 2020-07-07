@@ -2,11 +2,9 @@
   "comment_1": "ITEMS",
   "item.elementaristics.liber_elementium": "Liber Elementium",
   "item.elementaristics.liber_elementium.rite": "Liber Elementium (Rite Mode)",
-
-
   "comment_9": "COMMAND STUFF",
   "elementaristics.command.set_magan.success": "Set %s's game mode to %d",
   "comment_10": "BOOK STUFF",
-  "elementaristics.book.name": "Liber Elementium",
+  "elementaristics.book.name": "Liber Elementum",
   "elementaristics.book.landing": "Putting the square in the circle"
 }
