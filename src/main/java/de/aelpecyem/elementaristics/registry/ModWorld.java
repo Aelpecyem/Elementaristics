@@ -13,7 +13,7 @@ import net.minecraft.world.gen.placer.SimpleBlockPlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 
 public class ModWorld {
-    public static final RandomPatchFeatureConfig MORNING_GLORY_CONFIG = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(ModObjects.MORNING_GLORY.getDefaultState().with(BlockMorningGloryPlant.AGE, 2)), SimpleBlockPlacer.field_24871)).spreadX(3).spreadZ(3).spreadY(5).tries(48).build();
+    public static final RandomPatchFeatureConfig MORNING_GLORY_CONFIG = (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(ModObjects.MORNING_GLORY.getDefaultState().with(BlockMorningGloryPlant.AGE, 4)), SimpleBlockPlacer.field_24871)).spreadX(3).spreadZ(3).spreadY(5).tries(48).build();
     public static void init(){
         addVanillaBiomeFeatures();
     }

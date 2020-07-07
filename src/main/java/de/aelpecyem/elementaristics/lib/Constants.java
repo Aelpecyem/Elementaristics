@@ -21,6 +21,15 @@ public class Constants {
 
     public static class NBTTags {
         public static final String MAGAN_TAG = "Magan";
+
+        public static final String AETHER_TAG = "Aether";
+        public static final String AIR_TAG = "Air";
+        public static final String EARTH_TAG = "Earth";
+        public static final String FIRE_TAG = "Fire";
+        public static final String WATER_TAG = "Water";
+        public static final String POTENTIAL_TAG = "Potential";
+        public static final String ATTUNEMENT_TAG = "Elem Attunement";
+
         public static final String ASCENSION_PATH = "Ascension Path";
         public static final String ASCENSION_STAGE = "Ascension Stage";
 

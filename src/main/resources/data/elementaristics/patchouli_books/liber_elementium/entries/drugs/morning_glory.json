@@ -1,0 +1,20 @@
+{
+  "name": "Morning Glory",
+  "icon": "elementaristics:morning_glory_vines",
+  "category": "drugs",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The fabled $(o)Morning Glory$() is one of the more psychedelic plants of the Wake. Being able to expand close to solid walls, it can cover a much bigger surface than most flowers. Harvesting those flowers yields their seed, which can be processed into a more-or-less refined stew. "
+    },
+    {
+      "type": "image",
+      "images": [
+        "elementaristics:textures/gui/images/morning_glory_forest.png",
+        "elementaristics:textures/gui/images/morning_glory_jungle.png"
+      ],
+      "border": true,
+      "text": "Morning Glories are naturally found in Jungles and Forests."
+    }
+  ]
+}
