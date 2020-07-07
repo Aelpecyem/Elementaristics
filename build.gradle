@@ -14,6 +14,13 @@ repositories {
 	maven {
 		url = 'https://maven.blamejared.com'
 	}
+	maven {
+		url = "https://jitpack.io"
+	}
+	maven {
+		name = "NerdHubMC"
+		url = "https://maven.abusedmaster.xyz/"
+	}
 }
 dependencies {
 	//to change the versions see the gradle.properties file
@@ -25,6 +32,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation "vazkii.patchouli:Patchouli_1.16-fabric:1.16-37.20-FABRIC"
+	modImplementation "com.github.emilyploszaj:trinkets:2.6.2"
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
     compile 'org.jetbrains:annotations:15.0'
