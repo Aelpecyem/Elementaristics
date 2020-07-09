@@ -29,6 +29,7 @@ public abstract class PlayerMixin extends LivingEntity implements IElemStats {
             StatHelper.regenMagan((PlayerEntity) (Object) this, 10);
         }
     }
+
     @Shadow
     public abstract int getSleepTimer();
 
