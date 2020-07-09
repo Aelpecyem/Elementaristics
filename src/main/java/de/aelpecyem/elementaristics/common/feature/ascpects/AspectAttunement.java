@@ -1,21 +1,27 @@
 package de.aelpecyem.elementaristics.common.feature.ascpects;
 
+import de.aelpecyem.elementaristics.lib.Constants;
+import de.aelpecyem.elementaristics.lib.Constants.IDs;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 
-import static de.aelpecyem.elementaristics.lib.Constants.NBTTags.*;
-
 public class AspectAttunement {
-    private byte aether, air, earth, fire, water, potential;
+    public byte[] aspects = new byte[6]; //aether, air, earth, fire, water, potential;
     public static final int ATTUNEMENT_CAP = 5;
 
-    public AspectAttunement(byte aether, byte air, byte earth, byte fire, byte water, byte potential) {
-        this.aether = aether;
-        this.air = air;
-        this.earth = earth;
-        this.fire = fire;
-        this.water = water;
-        this.potential = potential;
+    public AspectAttunement(byte aether, byte fire, byte water, byte earth, byte air, byte potential) {
+        this.aspects[IDs.AETHER_ID] = aether;
+        this.aspects[IDs.FIRE_ID] = fire;
+        this.aspects[IDs.WATER_ID] = water;
+        this.aspects[IDs.EARTH_ID] = earth;
+        this.aspects[IDs.AIR_ID] = air;
+        this.aspects[IDs.POTENTIAL_ID] = potential;
+    }
+
+    public AspectAttunement(byte[] aspects) {
+        for (int i = 0; i < aspects.length; i++) {
+            this.aspects[i] = aspects[i];
+        }
     }
 
     public AspectAttunement() {
@@ -23,71 +29,83 @@ public class AspectAttunement {
     }
 
     public byte getAether() {
-        return aether;
+        return aspects[IDs.AETHER_ID];
     }
 
     public AspectAttunement setAether(byte value) {
-        this.aether = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.AETHER_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public byte getAir() {
-        return air;
+        return aspects[IDs.AIR_ID];
     }
 
     public AspectAttunement setAir(byte value) {
-        this.air = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.AIR_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public byte getEarth() {
-        return earth;
+        return aspects[IDs.EARTH_ID];
     }
 
     public AspectAttunement setEarth(byte value) {
-        this.earth = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.EARTH_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public byte getFire() {
-        return fire;
+        return aspects[IDs.FIRE_ID];
     }
 
     public AspectAttunement setFire(byte value) {
-        this.fire = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.FIRE_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public byte getWater() {
-        return water;
+        return aspects[IDs.WATER_ID];
     }
 
     public AspectAttunement setWater(byte value) {
-        this.water = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.WATER_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public byte getPotential() {
-        return potential;
+        return aspects[IDs.POTENTIAL_ID];
     }
 
     public AspectAttunement setPotential(byte value) {
-        this.potential = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[IDs.POTENTIAL_ID] = (byte) MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
-    public static AspectAttunement deserialize(CompoundTag tag) {
-        return new AspectAttunement(tag.getByte(AETHER_TAG), tag.getByte(AIR_TAG), tag.getByte(EARTH_TAG), tag.getByte(FIRE_TAG), tag.getByte(WATER_TAG), tag.getByte(POTENTIAL_TAG));
+    public CompoundTag serialize(CompoundTag tag) {
+        tag.putByteArray("Aspects", aspects);
+        return tag;
     }
 
-    public CompoundTag serialize() {
-        CompoundTag tag = new CompoundTag();
-        tag.putByte(AETHER_TAG, aether);
-        tag.putByte(AIR_TAG, air);
-        tag.putByte(EARTH_TAG, earth);
-        tag.putByte(FIRE_TAG, fire);
-        tag.putByte(WATER_TAG, water);
-        tag.putByte(POTENTIAL_TAG, potential);
-        return tag;
+    public static AspectAttunement deserialize(CompoundTag tag) {
+        return new AspectAttunement(tag.getByteArray("Aspects"));
+    }
+
+    public static int getAspectColor(int aspectId) {
+        switch (aspectId) {
+            case IDs.AETHER_ID:
+                return Constants.Colors.AETHER_COLOR;
+            case IDs.FIRE_ID:
+                return Constants.Colors.FIRE_COLOR;
+            case IDs.WATER_ID:
+                return Constants.Colors.WATER_COLOR;
+            case IDs.EARTH_ID:
+                return Constants.Colors.EARTH_COLOR;
+            case IDs.AIR_ID:
+                return Constants.Colors.AIR_COLOR;
+            default:
+                return Constants.Colors.POTENTIAL_COLOR;
+
+        }
     }
 }

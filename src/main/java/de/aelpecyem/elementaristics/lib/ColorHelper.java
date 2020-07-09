@@ -1,9 +1,7 @@
 package de.aelpecyem.elementaristics.lib;
 
-import javafx.scene.paint.Color;
-
 public class ColorHelper {
-    public static boolean isDark(float r, float g, float b){
+    public static boolean isDark(float r, float g, float b) {
         return isDark(r, g, b, 0.45F);
     }
 
@@ -11,15 +9,19 @@ public class ColorHelper {
         return r < threshold && g < threshold && b < threshold;
     }
 
-    public static Color blend(Color c0, Color c1, double weightOne, double weightTwo) {
-        double weight0 = weightOne;
-        double weight1 = weightTwo;
+    public static int[] blendTowards(int from, int to, double percentage) {
+        return blendTowards(toRGB(from), toRGB(to), percentage);
+    }
 
-        double r = weight0 * c0.getRed() + weight1 * c1.getRed();
-        double g = weight0 * c0.getGreen() + weight1 * c1.getGreen();
-        double b = weight0 * c0.getBlue() + weight1 * c1.getBlue();
-        double a = Math.max(c0.getOpacity(), c1.getOpacity());
+    public static int[] blendTowards(int[] from, int[] to, double percentage) {
+        int[] rgb = new int[3];
+        rgb[0] = (int) (from[0] * (1 - percentage) + to[0] * percentage);
+        rgb[1] = (int) (from[1] * (1 - percentage) + to[2] * percentage);
+        rgb[2] = (int) (from[2] * (1 - percentage) + to[2] * percentage);
+        return rgb;
+    }
 
-        return new Color((int) r, (int) g, (int) b, (int) a);
+    public static int[] toRGB(int decimalColor) {
+        return new int[]{(decimalColor >> 16) & 0xff, (decimalColor >> 8) & 0xff, decimalColor & 0xff};
     }
 }
