@@ -4,6 +4,7 @@ import de.aelpecyem.elementaristics.common.entity.EntityNexus;
 import de.aelpecyem.elementaristics.common.feature.ascpects.AspectAttunement;
 import de.aelpecyem.elementaristics.registry.ModObjects;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
@@ -37,17 +38,18 @@ public class Constants {
 
 
     public static class NBTTags {
+        public static final String MEDITATING = "Meditating";
+        public static final String MEDITATE_TICKS = "Ticks Meditating";
         public static final String MAGAN_TAG = "Magan";
-
-        public static final String ASPECT_TAG = "Aspects";
-        public static final String INSTABILITY_TAG = "Instability";
-        public static final String OWNER_UUID_TAG = "Owner UUID";
-        public static final String CURRENT_RITE = "Current Rite";
 
         public static final String ASCENSION_PATH = "Ascension Path";
         public static final String ASCENSION_STAGE = "Ascension Stage";
 
+        public static final String INSTABILITY_TAG = "Instability";
+        public static final String OWNER_UUID_TAG = "Owner UUID";
+        public static final String CURRENT_RITE = "Current Rite";
         public static final String RITE_MODE = "Rite Mode";
+
         public static final String COLOR_TAG = "Color";
     }
 
@@ -72,6 +74,7 @@ public class Constants {
         public static final TrackedData<Integer> MAGAN = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Byte> ASCENSION_STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BYTE);
         public static final TrackedData<String> ASCENSION_PATH = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.STRING);
+        public static final TrackedData<Boolean> MEDITATING = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
         public static final TrackedData<AspectAttunement> ATTUNEMENT = DataTracker.registerData(EntityNexus.class, ATTUNEMENT_TRACKER);
         public static final TrackedData<Float> INSTABILITY = DataTracker.registerData(EntityNexus.class, TrackedDataHandlerRegistry.FLOAT);
@@ -88,5 +91,9 @@ public class Constants {
         public static final int EARTH_COLOR = 0x008700;
         public static final int AIR_COLOR = 0x00FFFF;
         public static final int POTENTIAL_COLOR = 0xE1E1E1;
+    }
+
+    public static class Misc {
+        public static final EntityDimensions MEDITATING_DIMENSIONS = new EntityDimensions(0.75F, 1.2F, true);
     }
 }

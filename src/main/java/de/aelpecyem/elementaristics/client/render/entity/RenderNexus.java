@@ -34,11 +34,6 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
     }
 
     @Override
-    public boolean shouldRender(EntityNexus entity, Frustum frustum, double x, double y, double z) {
-        return true;
-    }
-
-    @Override
     public void render(EntityNexus nexus, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider buffer, int light) {
         if (nexus.age > 0) {
             float timeFactor = ((float) nexus.age + tickDelta) / 400.0F;

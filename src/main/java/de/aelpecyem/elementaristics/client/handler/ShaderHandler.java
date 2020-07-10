@@ -2,7 +2,7 @@ package de.aelpecyem.elementaristics.client.handler;
 
 import com.google.gson.JsonSyntaxException;
 import de.aelpecyem.elementaristics.lib.Constants;
-import de.aelpecyem.elementaristics.lib.DummyConfig;
+import de.aelpecyem.elementaristics.lib.ModConfig;
 import de.aelpecyem.elementaristics.registry.ModRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderEffect;
@@ -23,7 +23,7 @@ public class ShaderHandler {
     public static Identifier[] shaders = new Identifier[]{new Identifier("shaders/post/intox.json")};
 
     public static void handleShaders(MinecraftClient mc){
-        if (DummyConfig.shaders){
+        if (ModConfig.shaders) {
             handleShader(mc.player.hasStatusEffect(ModRegistry.INTOXICATED), SHADER_INTOX, mc);
         }
     }
