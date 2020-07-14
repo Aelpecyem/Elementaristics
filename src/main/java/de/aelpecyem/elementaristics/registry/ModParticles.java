@@ -23,14 +23,18 @@ import java.util.function.Function;
 public class ModParticles {
     public static List<ParticleTextureSheet> ELEM_SHEETS = Arrays.asList(ParticleTextureSheets.BRIGHT, ParticleTextureSheets.DARK);
     public static ParticleType<MagicParticleEffect> GLOW = register("glow", MagicParticleEffect.PARAMETERS_FACTORY, MagicParticleEffect::getCodec);
+    //todo add ambient glow that fades in and out
 
-    //basically ripped this from ParticleTypes register method
     private static <T extends ParticleEffect> ParticleType<T> register(String name, ParticleEffect.Factory<T> factory, final Function<ParticleType<T>, Codec<T>> function) {
         return Util.register(Registry.PARTICLE_TYPE, name, new ParticleType<T>(false, factory) {
             public Codec<T> method_29138() {
                 return function.apply(this);
             }
         });
+    }
+
+    public static class Helper {
+        //unified spawn methods will be added here
     }
 
     public static class ParticleTextureSheets {
@@ -52,7 +56,6 @@ public class ModParticles {
             @Override
             public void draw(Tessellator tessellator) {
                 tessellator.draw();
-                //       MinecraftClient.getInstance().getTextureManager().getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).r+//e();
             }
 
             @Override

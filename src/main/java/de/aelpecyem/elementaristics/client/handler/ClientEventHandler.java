@@ -1,10 +1,8 @@
 package de.aelpecyem.elementaristics.client.handler;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import de.aelpecyem.elementaristics.client.particle.type.MagicParticleEffect;
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.lib.StatHelper;
-import de.aelpecyem.elementaristics.registry.ModParticles;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
@@ -24,12 +22,10 @@ public class ClientEventHandler{
             public void tick(MinecraftClient mc) {
                 if (mc != null && mc.player != null) {
                     ShaderHandler.handleShaders(mc);
-                    mc.player.world.addParticle(new MagicParticleEffect(ModParticles.GLOW, new MagicParticleEffect.MagicParticleInfo(1)), mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0);
-
-                    //   mc.particleManager.addParticle(new GlowParticle((ClientWorld) mc.player.world, mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0));
                 }
             }
         });
+
         HudRenderCallback.EVENT.register((matrixStack, parTick) -> {
             MinecraftClient minecraft = MinecraftClient.getInstance();
             PlayerEntity player = MinecraftClient.getInstance().player;

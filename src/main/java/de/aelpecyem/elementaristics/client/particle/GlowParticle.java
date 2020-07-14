@@ -16,16 +16,25 @@ import net.minecraft.client.world.ClientWorld;
 import javax.annotation.Nullable;
 
 public class GlowParticle extends SpriteBillboardParticle {
-    public GlowParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ) {
+    public GlowParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, MagicParticleEffect.MagicParticleInfo info) {
         super(world, x, y, z, velX, velY, velZ);
-        colorRed = 0.1F;
-        colorBlue = 0.1F;
-        colorGreen = 0.1F;
+        scale *= info.getSize();
+
+        colorRed = (((info.getColor() >> 16) & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
+        colorBlue = (((info.getColor() >> 8) & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
+        colorGreen = ((info.getColor() & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
+    }
+
+    @Override
+    public void tick() {
+        float lifeRatio = (float) this.age / (float) this.maxAge;
+        this.colorAlpha = colorAlpha - (lifeRatio * colorAlpha);
+        super.tick();
     }
 
     @Override
     public ParticleTextureSheet getType() {
-        return isBright() ? ModParticles.ParticleTextureSheets.BRIGHT : ModParticles.ParticleTextureSheets.DARK; //ParticleTextureSheet.PARTICLE_SHEET_LIT;//ColorHelper.isDark(colorRed, colorGreen, colorBlue) ? ModParticles.RenderTypes.DARK : ModParticles.RenderTypes.BRIGHT;
+        return isBright() ? ModParticles.ParticleTextureSheets.BRIGHT : ModParticles.ParticleTextureSheets.DARK;
     }
 
     private boolean isBright() {
@@ -41,7 +50,7 @@ public class GlowParticle extends SpriteBillboardParticle {
                 @Nullable
                 @Override
                 public Particle createParticle(MagicParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
-                    GlowParticle glowParticle = new GlowParticle(world, x, y, z, velocityX, velocityY, velocityZ);
+                    GlowParticle glowParticle = new GlowParticle(world, x, y, z, velocityX, velocityY, velocityZ, parameters.getInfo());
                     glowParticle.setSprite(fabricSpriteProvider.getSprites().get(0));
                     return glowParticle;
                 }
