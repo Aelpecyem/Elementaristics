@@ -1,9 +1,10 @@
 package de.aelpecyem.elementaristics.client.handler;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import de.aelpecyem.elementaristics.client.particle.GlowParticle;
+import de.aelpecyem.elementaristics.client.particle.type.MagicParticleEffect;
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.lib.StatHelper;
+import de.aelpecyem.elementaristics.registry.ModParticles;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +13,6 @@ import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
@@ -22,9 +22,11 @@ public class ClientEventHandler{
         ClientTickCallback.EVENT.register(new ClientTickCallback() {
             @Override
             public void tick(MinecraftClient mc) {
-                if (mc != null && mc.player != null){
+                if (mc != null && mc.player != null) {
                     ShaderHandler.handleShaders(mc);
-                    mc.particleManager.addParticle(new GlowParticle((ClientWorld) mc.player.world, mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0));
+                    mc.player.world.addParticle(new MagicParticleEffect(ModParticles.GLOW, new MagicParticleEffect.MagicParticleInfo(1)), mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0);
+
+                    //   mc.particleManager.addParticle(new GlowParticle((ClientWorld) mc.player.world, mc.player.getX(), mc.player.getY(), mc.player.getZ(), 0, 0, 0));
                 }
             }
         });

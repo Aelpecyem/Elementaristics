@@ -7,7 +7,8 @@
     "HUDMixin",
     "ClientPlayNetworkHandlerMixin",
     "PlayerModelMixin",
-    "PlayerRendererMixin"
+    "PlayerRendererMixin",
+    "ParticleMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,17 +1,15 @@
 package de.aelpecyem.elementaristics.lib;
 
-import io.github.fablabsmc.fablabs.api.fiber.v1.schema.type.derived.ConfigTypes;
 import io.github.fablabsmc.fablabs.api.fiber.v1.tree.ConfigTree;
 
 public class ModConfig {
-    public static void init() {//might use Fiber2Cloth
-        ConfigTree.builder()
-                .fork("colors")
-                .withValue("Air Color", ConfigTypes.INTEGER, Constants.Colors.AIR_COLOR); //add stuff that later
+    public static ConfigTree config;
+
+    public static void init() {
+        //config will have to wait till I'm back up again lol
     }
 
-    //client
-    public static boolean shaders = true;
+    public static int morningGloryChance = 10;
+    public static boolean shaders = false;
 
-    public static int morning_glory_chance = 10;
 }

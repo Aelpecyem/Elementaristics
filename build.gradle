@@ -22,7 +22,7 @@ repositories {
 		url = "https://maven.abusedmaster.xyz/"
 	}
 	maven {
-		url = "https://maven.modmuss50.me/"
+		url = "https://maven.modmuss50.me/" //this might be redundant, but i'll keep it anyways for now
 	}
 }
 dependencies {

@@ -21,7 +21,7 @@ public class ModWorld {
     private static void addVanillaBiomeFeatures() {
         Registry.BIOME.forEach(biome -> {
             if (biome.getCategory() == Biome.Category.JUNGLE || biome.getCategory() == Biome.Category.FOREST) {
-                biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(MORNING_GLORY_CONFIG).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(ModConfig.morning_glory_chance))));
+                biome.addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Feature.FLOWER.configure(MORNING_GLORY_CONFIG).createDecoratedFeature(Decorator.CHANCE_HEIGHTMAP.configure(new ChanceDecoratorConfig(ModConfig.morningGloryChance))));
             }
         });
     }
