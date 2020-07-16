@@ -1,6 +1,6 @@
 package de.aelpecyem.elementaristics.common.entity;
 
-import de.aelpecyem.elementaristics.common.feature.ascpects.AspectAttunement;
+import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants.NBTTags;
 import net.fabricmc.api.EnvType;
@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.text.LiteralText;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -38,19 +39,15 @@ public class EntityNexus extends Entity {
         this.dataTracker.startTracking(ATTUNEMENT, new AspectAttunement((byte) 0, (byte) 0, (byte) 0, (byte) 5, (byte) 0, (byte) 1));
     }
 
+    @Override
+    public boolean shouldRenderName() {
+        return true;
+    }
 
     @Override
     public void tick() {
         super.tick();
-        if (submergedInWater) {
-            targetrgb[0] = 0;
-            targetrgb[1] = 0;
-            targetrgb[2] = 255;
-        } else {
-            targetrgb[0] = 255;
-            targetrgb[1] = 0;
-            targetrgb[2] = 0;
-        }
+        setCustomName(new LiteralText(getAttunement().toString()));
         if (world.isClient) {
             updateColors();
         }
@@ -71,7 +68,6 @@ public class EntityNexus extends Entity {
         else
             dataTracker.set(OWNER_UUID, Optional.empty());
         setAttunement(AspectAttunement.deserialize(tag));
-        System.out.println(tag);
         for (int i = 0; i < tag.getIntArray(NBTTags.COLOR_TAG).length; i++) {
             targetrgb[i] = tag.getIntArray(NBTTags.COLOR_TAG)[i];
         }
@@ -131,6 +127,10 @@ public class EntityNexus extends Entity {
     public AspectAttunement setAttunement(AspectAttunement attunement) {
         dataTracker.set(ATTUNEMENT, attunement);
         return getAttunement();
+    }
+
+    public void addAttunement(AspectAttunement attunement) {
+        dataTracker.set(ATTUNEMENT, attunement.addAspects(attunement));
     }
 
     public void setInstability(float instability) {

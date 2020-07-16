@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.lib;
 
 import de.aelpecyem.elementaristics.common.entity.EntityNexus;
-import de.aelpecyem.elementaristics.common.feature.ascpects.AspectAttunement;
+import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.registry.ModObjects;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -51,18 +51,19 @@ public class Constants {
         public static final String RITE_MODE = "Rite Mode";
 
         public static final String COLOR_TAG = "Color";
+        public static final String TICK_COUNT = "Ticks";
     }
 
     public static class DataTrackers {
         public static final TrackedDataHandler<AspectAttunement> ATTUNEMENT_TRACKER = new TrackedDataHandler<AspectAttunement>() {
             @Override
             public void write(PacketByteBuf data, AspectAttunement attunement) {
-                data.writeByteArray(attunement.aspects);
+                data.writeIntArray(attunement.aspects);
             }
 
             @Override
             public AspectAttunement read(PacketByteBuf packetByteBuf) {
-                return new AspectAttunement(packetByteBuf.readByteArray());
+                return new AspectAttunement(packetByteBuf.readIntArray());
             }
 
             @Override

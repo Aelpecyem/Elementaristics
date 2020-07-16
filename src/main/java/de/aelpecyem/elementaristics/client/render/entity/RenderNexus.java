@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -45,8 +46,8 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
             int red = nexus.getColors()[0];
             int green = nexus.getColors()[1];
             int blue = nexus.getColors()[2];
-            int baseValue = 55; //155 + (potency * 20) more or less
-            matrices.translate(0, 0.5, 0);
+            int baseValue = 55 + (nexus.getAttunement().getPotential() * 40); //155 + (potency * 20) more or less
+            matrices.translate(0, 0.25, 0);
             GL11.glDepthMask(false);
             RenderSystem.enableAlphaTest();
             int amount = 10;
@@ -84,6 +85,11 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
             matrices.pop();
         }
         super.render(nexus, yaw, tickDelta, matrices, buffer, light);
+    }
+
+    @Override
+    protected void renderLabelIfPresent(EntityNexus entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+        super.renderLabelIfPresent(entity, text, matrices, vertexConsumers, light);
     }
 
     @Override
