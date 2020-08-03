@@ -11,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.text.LiteralText;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -23,6 +22,7 @@ import static de.aelpecyem.elementaristics.lib.Constants.DataTrackers.*;
 public class EntityNexus extends Entity {
     @Environment(EnvType.CLIENT)
     public int[] rgb;
+
     public int[] targetrgb;
 
     public EntityNexus(EntityType<? extends Entity> entityType, World world) {
@@ -47,7 +47,7 @@ public class EntityNexus extends Entity {
     @Override
     public void tick() {
         super.tick();
-        setCustomName(new LiteralText(getAttunement().toString()));
+        setCustomName(getAttunement().toText());
         if (world.isClient) {
             updateColors();
         }
@@ -130,7 +130,7 @@ public class EntityNexus extends Entity {
     }
 
     public void addAttunement(AspectAttunement attunement) {
-        dataTracker.set(ATTUNEMENT, attunement.addAspects(attunement));
+        if (!world.isClient) dataTracker.set(ATTUNEMENT, getAttunement().addAspects(attunement));
     }
 
     public void setInstability(float instability) {

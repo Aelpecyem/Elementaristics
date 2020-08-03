@@ -11,6 +11,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.util.registry.Registry;
@@ -34,7 +35,9 @@ public class ModParticles {
     }
 
     public static class Helper {
-        //unified spawn methods will be added here
+        public static void spawnDirectedBurst(Entity from, Entity to, int color, int size) {
+            //new extension of the glow particle that uses the velocity in the factory as coordinates to move to
+        }
     }
 
     public static class ParticleTextureSheets {

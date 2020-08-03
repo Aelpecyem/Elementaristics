@@ -21,7 +21,7 @@ public class ColorHelper {
     public static int[] blendTowards(int[] from, int[] to, double percentage) {
         int[] rgb = new int[3];
         rgb[0] = (int) (from[0] * (1 - percentage) + to[0] * percentage);
-        rgb[1] = (int) (from[1] * (1 - percentage) + to[2] * percentage);
+        rgb[1] = (int) (from[1] * (1 - percentage) + to[1] * percentage);
         rgb[2] = (int) (from[2] * (1 - percentage) + to[2] * percentage);
         return rgb;
     }

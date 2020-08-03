@@ -53,7 +53,6 @@ public class ModCommands {
 
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
     }
-
     private static int changeAttunement(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         PlayerEntity player = context.getSource().getPlayer();
         setAttunement(player.getMainHandStack(), new AspectAttunement(IntegerArgumentType.getInteger(context, "aether"),

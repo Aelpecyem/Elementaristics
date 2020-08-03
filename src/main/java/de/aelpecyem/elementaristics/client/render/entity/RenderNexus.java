@@ -16,19 +16,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.Random;
 
 public class RenderNexus extends EntityRenderer<EntityNexus> {
-    private static final RenderPhase.Transparency NEXUS_TRANSPARENCY = new RenderPhase.Transparency("lightning_transparency", () -> {
-        RenderSystem.enableBlend();
-        GL11.glDepthMask(false);
-        RenderSystem.enableAlphaTest();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-    }, () -> {
-        RenderSystem.disableBlend();
-        GL11.glDepthMask(true);
-        RenderSystem.disableAlphaTest();
-        RenderSystem.defaultBlendFunc();
-    });
-    private static RenderLayer NEXUS = RenderLayer.of("elem_nexus", VertexFormats.POSITION_COLOR, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder()
-            .transparency(NEXUS_TRANSPARENCY).cull(new RenderPhase.Cull(true)).shadeModel(new RenderPhase.ShadeModel(true)).build(false));
+    private static final RenderLayer NEXUS;
 
     public RenderNexus(EntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -36,6 +24,7 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
 
     @Override
     public void render(EntityNexus nexus, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider buffer, int light) {
+        //could apply slight phosphor shader
         if (nexus.age > 0) {
             float timeFactor = ((float) nexus.age + tickDelta) / 400.0F;
             float riteProgress = 0;
@@ -95,5 +84,20 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
     @Override
     public Identifier getTexture(EntityNexus entity) {
         return null;
+    }
+
+    static {
+        NEXUS = RenderLayer.of("elem_nexus", VertexFormats.POSITION_COLOR, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder()
+                .transparency(new RenderPhase.Transparency("lightning_transparency", () -> {
+                    RenderSystem.enableBlend();
+                    GL11.glDepthMask(false);
+                    RenderSystem.enableAlphaTest();
+                    RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+                }, () -> {
+                    RenderSystem.disableBlend();
+                    GL11.glDepthMask(true);
+                    RenderSystem.disableAlphaTest();
+                    RenderSystem.defaultBlendFunc();
+                })).cull(new RenderPhase.Cull(true)).shadeModel(new RenderPhase.ShadeModel(true)).build(false));
     }
 }

@@ -44,7 +44,7 @@ public class AspectAttunement {
 
     public AspectAttunement addAspects(AspectAttunement aspectAttunement) {
         ASPECT_LIST.forEach(aspect -> setAspect(aspect, getAspect(aspect) + aspectAttunement.getAspect(aspect)));
-        setPotential(getPotential() + aspectAttunement.getPotential());
+        setPotential(Math.max(aspectAttunement.getPotential(), getPotential()));
         return this;
     }
 
@@ -89,6 +89,8 @@ public class AspectAttunement {
             text.fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(aspect.getColor())));
             resultText.append(text);
         });
+        resultText.fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(Constants.Colors.POTENTIAL_COLOR)));
+        resultText.append(arabicToRomanNumeral[getPotential()]);
         return resultText.fillStyle(resultText.getStyle().withBold(true));
     }
 
@@ -102,5 +104,17 @@ public class AspectAttunement {
         if (o == null || getClass() != o.getClass()) return false;
         AspectAttunement that = (AspectAttunement) o;
         return Arrays.equals(aspects, that.aspects);
+    }
+
+    public Aspect getDominantAspect() {
+        int highestIndex = 0;
+        int highestValue = 0;
+        for (int i = 0; i < aspects.length; i++) {
+            if (aspects[i] > highestValue) {
+                highestIndex = i;
+                highestValue = aspects[i];
+            }
+        }
+        return ASPECT_LIST.get(highestIndex);
     }
 }

@@ -26,14 +26,38 @@ public class AlchemyHandler {
     public static final Aspect AIR = new Aspect(4, "air", AIR_COLOR, 2);
 
     public static void init() {
-        ASPECT_LIST.add(AETHER);
-        ASPECT_LIST.add(FIRE);
-        ASPECT_LIST.add(WATER);
-        ASPECT_LIST.add(EARTH);
-        ASPECT_LIST.add(AIR);
+        ASPECT_LIST.add(AETHER.getId(), AETHER);
+        ASPECT_LIST.add(FIRE.getId(), FIRE);
+        ASPECT_LIST.add(WATER.getId(), WATER);
+        ASPECT_LIST.add(EARTH.getId(), EARTH);
+        ASPECT_LIST.add(AIR.getId(), AIR);
     }
 
     public static class Helper {
+        public static AspectAttunement[] splitAttunement(AspectAttunement attunement) {
+            AspectAttunement[] attunements = new AspectAttunement[5];
+            ASPECT_LIST.forEach(aspect -> {
+                int[] values = new int[6];
+                Arrays.fill(values, 0);
+                values[aspect.getId()] = attunement.getAspect(aspect);
+                values[5] = attunement.getPotential();
+            });
+            return attunements;
+        }
+
+        public static AspectAttunement[] sortByBoil(AspectAttunement[] attunements) {
+            Arrays.sort(attunements, Comparator.comparingInt(aspect -> aspect.getDominantAspect().getRelativeBoiling()));
+            return attunements;
+        }
+
+        public static AspectAttunement mergeAttunement(AspectAttunement... attunement) {
+            AspectAttunement addAttunement = new AspectAttunement();
+            for (AspectAttunement aspectAttunement : attunement) {
+                addAttunement.addAspects(aspectAttunement);
+            }
+            return addAttunement;
+        }
+
         public static ItemStack convertToAlchemyItem(ItemStack stack) {
             ItemStack finalStack = stack;
             List<AlchemyItem> items = AlchemyHandler.ALCHEMY_ITEMS.values().stream().filter(alchemyItem -> alchemyItem.isDestabilizable() && alchemyItem.getValidItems().test(finalStack)).collect(Collectors.toList());
