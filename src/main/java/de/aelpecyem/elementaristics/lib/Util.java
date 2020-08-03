@@ -8,11 +8,11 @@ import net.minecraft.util.registry.Registry;
 
 public class Util {
     public static <T> T register(Registry<? super T> registry, String name, T entry) {
-        return Registry.register(registry, new Identifier(Constants.MODID, name), entry);
+        return Registry.register(registry, new Identifier(Constants.MOD_ID, name), entry);
     }
 
     public static Block registerStandardBlock(String name, Block block) {
-        Registry.register(Registry.ITEM, new Identifier(Constants.MODID, name), new BlockItem(block, new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP)));
-        return Registry.register(Registry.BLOCK, new Identifier(Constants.MODID, name), block);
+        Registry.register(Registry.ITEM, new Identifier(Constants.MOD_ID, name), new BlockItem(block, new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP)));
+        return Registry.register(Registry.BLOCK, new Identifier(Constants.MOD_ID, name), block);
     }
 }

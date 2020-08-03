@@ -2,7 +2,10 @@ package de.aelpecyem.elementaristics.common.block;
 
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.registry.ModObjects;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Fertilizable;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.loot.LootTable;
@@ -19,15 +22,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-
-import java.util.Random;
 
 import static net.minecraft.block.ConnectingBlock.*;
 
@@ -48,7 +47,7 @@ public class BlockMorningGloryVine extends BlockMorningGloryPlant implements Fer
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (player.getStackInHand(hand).getItem() instanceof ShearsItem && world instanceof ServerWorld) {
             if (isMature(state)) {
-                LootTable table = world.getServer().getLootManager().getTable(new Identifier(Constants.MODID, "blocks/morning_glory_sheared"));
+                LootTable table = world.getServer().getLootManager().getTable(new Identifier(Constants.MOD_ID, "blocks/morning_glory_sheared"));
                 LootContext.Builder builder = (new LootContext.Builder((ServerWorld) world)).random(world.random).parameter(LootContextParameters.POSITION, pos).parameter(LootContextParameters.TOOL, player.getStackInHand(hand)).optionalParameter(LootContextParameters.THIS_ENTITY, player).parameter(LootContextParameters.BLOCK_STATE, state);
                 table.generateLoot(builder.build(LootContextTypes.BLOCK)).forEach(stack -> dropStack(world, pos, stack));
                 world.setBlockState(pos, state.with(AGE, 0));

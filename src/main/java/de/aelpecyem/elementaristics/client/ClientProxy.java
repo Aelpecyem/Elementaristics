@@ -1,12 +1,14 @@
 package de.aelpecyem.elementaristics.client;
 
 import de.aelpecyem.elementaristics.client.handler.ClientEventHandler;
+import de.aelpecyem.elementaristics.client.handler.ShaderHandler;
 import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.common.handler.networking.PacketHandler;
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.registry.ModEntities;
 import de.aelpecyem.elementaristics.registry.ModObjects;
 import de.aelpecyem.elementaristics.registry.ModParticles;
+import io.github.cottonmc.cotton.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,8 +21,9 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
-public class ClientProxy implements ClientModInitializer{
-    public static KeyBinding meditate = new KeyBinding("key." + Constants.MODID + ".meditate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, "category." + Constants.MODID);
+public class ClientProxy implements ClientModInitializer {
+    public static final ClientConfig CONFIG = ConfigManager.loadConfig(ClientConfig.class);
+    public static KeyBinding meditate = new KeyBinding("key." + Constants.MOD_ID + ".meditate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, "category." + Constants.MOD_ID);
 
     @Override
     public void onInitializeClient() {
@@ -31,5 +34,6 @@ public class ClientProxy implements ClientModInitializer{
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.MORNING_GLORY_VINES, RenderLayer.getCutout());
         ModEntities.registerRenderers();
         ClientEventHandler.addEvents();
+        ShaderHandler.init();
     }
 }

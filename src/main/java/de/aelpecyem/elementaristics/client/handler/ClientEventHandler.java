@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.lib.StatHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
@@ -17,15 +16,6 @@ import net.minecraft.util.math.Matrix4f;
 
 public class ClientEventHandler{
     public static void addEvents(){
-        ClientTickCallback.EVENT.register(new ClientTickCallback() {
-            @Override
-            public void tick(MinecraftClient mc) {
-                if (mc != null && mc.player != null) {
-                    ShaderHandler.handleShaders(mc);
-                }
-            }
-        });
-
         HudRenderCallback.EVENT.register((matrixStack, parTick) -> {
             MinecraftClient minecraft = MinecraftClient.getInstance();
             PlayerEntity player = MinecraftClient.getInstance().player;
@@ -34,14 +24,12 @@ public class ClientEventHandler{
                 int width = (int) (mult * 79F);
                 int posY = minecraft.getWindow().getScaledHeight() - 33;
                 int posX = minecraft.getWindow().getScaledWidth() / 2 - 91;
-                MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(Constants.MODID, "textures/gui/hud_elements.png"));
+                MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(Constants.MOD_ID, "textures/gui/hud_elements.png"));
                 if (width > 0) {
                     drawTexture(matrixStack, posX, posY, 2, 0, width, 9, Constants.Colors.MAGAN_COLOR, 0.9F);
                     drawTexture(matrixStack, posX + 182 - width, posY, 180 - width, 0, width, 9, Constants.Colors.MAGAN_COLOR, 0.9F);
                 }
             }
-
-            ShaderHandler.renderShaders(matrixStack, parTick);
         });
     }
 

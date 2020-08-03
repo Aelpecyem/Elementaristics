@@ -4,6 +4,8 @@
   "item.elementaristics.liber_elementium.rite": "Liber Elementium (Rite Mode)",
   "comment_9": "COMMAND STUFF",
   "elementaristics.command.set_magan.success": "Set %s's game mode to %d",
+  "elementaristics.command.convert_item.success": "Successfully converted %s to %s",
+  "elementaristics.command.convert_item.failure": "Error: failed to convert %s",
   "comment_10": "BOOK STUFF",
   "elementaristics.book.name": "Liber Elementum",
   "elementaristics.book.landing": "Putting the square in the circle"

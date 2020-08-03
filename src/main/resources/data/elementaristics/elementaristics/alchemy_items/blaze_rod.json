@@ -1,0 +1,17 @@
+{
+  "type": "elementaristics:alchemy_item",
+  "ingredient": {
+    "item": "minecraft:blaze_rod"
+  },
+  "item": "minecraft:blaze_powder",
+  "stabilize": true,
+  "destabilize": true,
+  "aspects": {
+    "aether": 0,
+    "fire": 3,
+    "water": 0,
+    "earth": 1,
+    "air": 1,
+    "potential": 2
+  }
+}

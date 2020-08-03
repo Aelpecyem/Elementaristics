@@ -1,0 +1,14 @@
+{
+  "type": "elementaristics:alchemy_item",
+  "item": "minecraft:apple",
+  "stabilize": true,
+  "destabilize": false,
+  "aspects": {
+    "aether": 0,
+    "fire": 3,
+    "water": 0,
+    "earth": 1,
+    "air": 1,
+    "potential": 2
+  }
+}

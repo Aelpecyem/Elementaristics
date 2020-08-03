@@ -1,20 +1,25 @@
 package de.aelpecyem.elementaristics.common.feature.alchemy;
 
+import com.google.gson.JsonObject;
 import de.aelpecyem.elementaristics.lib.Constants;
-import de.aelpecyem.elementaristics.lib.Constants.IDs;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Arrays;
+
+import static de.aelpecyem.elementaristics.common.handler.AlchemyHandler.*;
+
 public class AspectAttunement {
-    public int[] aspects = new int[6]; //aether, air, earth, fire, water, potential;
+    private int[] aspects = new int[6]; //aether, air, earth, fire, water, potential;
     public static final int ATTUNEMENT_CAP = 5;
 
     public AspectAttunement(int aether, int fire, int water, int earth, int air, int potential) {
-        setAether(aether);
-        setFire(fire);
-        setWater(water);
-        setEarth(earth);
-        setAir(air);
+        setAspect(AETHER, aether);
+        setAspect(FIRE, fire);
+        setAspect(WATER, water);
+        setAspect(EARTH, earth);
+        setAspect(AIR, air);
         setPotential(potential);
     }
 
@@ -28,100 +33,58 @@ public class AspectAttunement {
         this(0, 0, 0, 0, 0, 0);
     }
 
+    public static AspectAttunement read(JsonObject object) {
+        return new AspectAttunement(JsonHelper.getInt(object, "aether"), JsonHelper.getInt(object, "fire"), JsonHelper.getInt(object, "water"), JsonHelper.getInt(object, "earth"), JsonHelper.getInt(object, "air"), JsonHelper.getInt(object, "potential"));
+    }
+
 
     public AspectAttunement addAspects(AspectAttunement aspectAttunement) {
-        setAether(getAether() + aspectAttunement.getAether());
-        setFire(getFire() + aspectAttunement.getFire());
-        setWater(getWater() + aspectAttunement.getWater());
-        setEarth(getEarth() + aspectAttunement.getEarth());
-        setAir(getAir() + aspectAttunement.getAir());
+        ASPECT_LIST.forEach(aspect -> setAspect(aspect, getAspect(aspect) + aspectAttunement.getAspect(aspect)));
         setPotential(getPotential() + aspectAttunement.getPotential());
         return this;
     }
 
-    public int getAether() {
-        return aspects[IDs.AETHER_ID];
+    public int getAspect(Aspect aspect) {
+        return aspects[aspect.getId()];
     }
 
-    public AspectAttunement setAether(int value) {
-        this.aspects[IDs.AETHER_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
-        return this;
-    }
-
-    public int getAir() {
-        return aspects[IDs.AIR_ID];
-    }
-
-    public AspectAttunement setAir(int value) {
-        this.aspects[IDs.AIR_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
-        return this;
-    }
-
-    public int getEarth() {
-        return aspects[IDs.EARTH_ID];
-    }
-
-    public AspectAttunement setEarth(int value) {
-        this.aspects[IDs.EARTH_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
-        return this;
-    }
-
-    public int getFire() {
-        return aspects[IDs.FIRE_ID];
-    }
-
-    public AspectAttunement setFire(int value) {
-        this.aspects[IDs.FIRE_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
-        return this;
-    }
-
-    public int getWater() {
-        return aspects[IDs.WATER_ID];
-    }
-
-    public AspectAttunement setWater(int value) {
-        this.aspects[IDs.WATER_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+    public AspectAttunement setAspect(Aspect aspect, int value) {
+        this.aspects[aspect.getId()] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public int getPotential() {
-        return aspects[IDs.POTENTIAL_ID];
+        return aspects[5];
     }
 
     public AspectAttunement setPotential(int value) {
-        this.aspects[IDs.POTENTIAL_ID] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
+        this.aspects[5] = MathHelper.clamp(value, 0, ATTUNEMENT_CAP);
         return this;
     }
 
     public CompoundTag serialize(CompoundTag tag) {
-        tag.putIntArray("Aspects", aspects);
+        tag.putIntArray(Constants.NBTTags.ASPECTS, aspects);
         return tag;
     }
 
     public static AspectAttunement deserialize(CompoundTag tag) {
-        return new AspectAttunement(tag.getIntArray("Aspects"));
-    }
-
-    public static int getAspectColor(int aspectId) {
-        switch (aspectId) {
-            case IDs.AETHER_ID:
-                return Constants.Colors.AETHER_COLOR;
-            case IDs.FIRE_ID:
-                return Constants.Colors.FIRE_COLOR;
-            case IDs.WATER_ID:
-                return Constants.Colors.WATER_COLOR;
-            case IDs.EARTH_ID:
-                return Constants.Colors.EARTH_COLOR;
-            case IDs.AIR_ID:
-                return Constants.Colors.AIR_COLOR;
-            default:
-                return Constants.Colors.POTENTIAL_COLOR;
-
-        }
+        return new AspectAttunement(tag.getIntArray(Constants.NBTTags.ASPECTS));
     }
 
     @Override
     public String toString() {
         return String.format("AETHER %d FIRE %d WATER %d EARTH %d AIR %d POTENTIAL %d", aspects[0], aspects[1], aspects[2], aspects[3], aspects[4], aspects[5]);
+    }
+
+    public int[] getAspects() {
+        return aspects;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AspectAttunement that = (AspectAttunement) o;
+        return Arrays.equals(aspects, that.aspects);
     }
 }

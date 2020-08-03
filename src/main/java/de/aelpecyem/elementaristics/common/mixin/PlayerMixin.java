@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static de.aelpecyem.elementaristics.lib.Constants.DataTrackers;
-import static de.aelpecyem.elementaristics.lib.Constants.NBTTags;
+import static de.aelpecyem.elementaristics.lib.Constants.NBTTags.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements IElemStats {
@@ -47,7 +47,7 @@ public abstract class PlayerMixin extends LivingEntity implements IElemStats {
                 ClientSidePacketRegistry.INSTANCE.sendToServer(PacketHandler.MEDITATE_PACKET, data);
                 updateNeeded = true;
             } else {
-                ((PlayerEntity) (Object) this).sendMessage(new TranslatableText(Constants.MODID + ".meditate.denied"), true);
+                ((PlayerEntity) (Object) this).sendMessage(new TranslatableText(Constants.MOD_ID + ".meditate.denied"), true);
             }
         }
         if (!canMeditate()) setMeditating(false);
@@ -112,24 +112,26 @@ public abstract class PlayerMixin extends LivingEntity implements IElemStats {
         return dataTracker.get(DataTrackers.ASCENSION_PATH);
     }
 
-    @Inject(at = @At("RETURN") , method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V")
-    private void writeNBT(CompoundTag tag, CallbackInfo info) {
-        tag.putBoolean(NBTTags.MEDITATING, isMeditating());
-        tag.putInt(NBTTags.MEDITATE_TICKS, meditationTicks);
-        tag.putInt(NBTTags.MAGAN_TAG, getMagan());
-        tag.putByte(NBTTags.ASCENSION_STAGE, getAscensionStage());
+    @Inject(at = @At("RETURN"), method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V")
+    private void writeNBT(CompoundTag dataTag, CallbackInfo info) {
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean(MEDITATING, isMeditating());
+        tag.putInt(MEDITATE_TICKS, meditationTicks);
+        tag.putInt(MAGAN_TAG, getMagan());
+        tag.putByte(ASCENSION_STAGE, getAscensionStage());
         if (getAscensionPath().isEmpty()) setAscensionPath("standard");
-        tag.putString(NBTTags.ASCENSION_PATH, getAscensionPath());
-
+        tag.putString(ASCENSION_PATH, getAscensionPath());
+        dataTag.put(ELEM_DATA, tag);
     }
 
-    @Inject(at = @At("RETURN") , method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V")
-    private void readNBT(CompoundTag tag, CallbackInfo info) {
-        setMeditating(tag.getBoolean(NBTTags.MEDITATING));
-        meditationTicks = tag.getInt(NBTTags.MEDITATE_TICKS);
-        setMagan(tag.getInt(NBTTags.MAGAN_TAG));
-        setAscensionStage(tag.getByte(NBTTags.ASCENSION_STAGE));
-        String s = tag.getString(NBTTags.ASCENSION_PATH);
+    @Inject(at = @At("RETURN"), method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V")
+    private void readNBT(CompoundTag dataTag, CallbackInfo info) {
+        CompoundTag tag = (CompoundTag) dataTag.get(ELEM_DATA);
+        setMeditating(tag.getBoolean(MEDITATING));
+        meditationTicks = tag.getInt(MEDITATE_TICKS);
+        setMagan(tag.getInt(MAGAN_TAG));
+        setAscensionStage(tag.getByte(ASCENSION_STAGE));
+        String s = tag.getString(ASCENSION_PATH);
         if (s.isEmpty()) s = "standard";
         setAscensionPath(s);
     }

@@ -2,16 +2,19 @@ package de.aelpecyem.elementaristics.common.block.blockentity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Tickable;
 
+import javax.annotation.Nullable;
+
 import static de.aelpecyem.elementaristics.lib.Constants.NBTTags.TICK_COUNT;
 
-public abstract class BlockEntityAlchemy extends BlockEntity implements Tickable, ImplementedInventory {
+public abstract class BlockEntityAlchemy extends BlockEntityBase implements Tickable, ImplementedInventory, BlockEntityClientSerializable {
     public int tickCount;
 
     public BlockEntityAlchemy(BlockEntityType<?> type) {
@@ -68,22 +71,27 @@ public abstract class BlockEntityAlchemy extends BlockEntity implements Tickable
         return true;
     }
 
-    /*
-        Alchemy works like this:
-        By default, all items tagged as alchemy item (no clue how to call that tag as of yet) can be decomposed or built (also no clue what tag that is)
-        Alchemy Items will have a Predicate for their recipe:
+    @Override
+    public void fromClientTag(CompoundTag compoundTag) {
+        fromTag(world.getBlockState(pos), compoundTag);
+    }
 
-        Predicate: Alchemy Conditions (contains temperature and other stuff, but also Attunement)
-        By default, the Predicate will check if the Attunement matches the Attunement of the Item to be crafted;
-        however, some (like Essence of Nothingness) have other conditions i.e. there being no aspects but Potency
+    @Override
+    public CompoundTag toClientTag(CompoundTag compoundTag) {
+        toTag(compoundTag);
+        return compoundTag;
+    }
 
 
-        The Default Alchemy Procedure looks like this:
-            -add parameters (items, usually raw Alchemical matter, and other things like adjusting temperature for some devices etc.)
-            -activate (via redstone i guess)
-            -results (this will go through all the recipes with the Alchemy Conditions, changing the Alchemical Matter to the Item in question)
+    @Nullable
+    @Override
+    public BlockEntityUpdateS2CPacket toUpdatePacket() {
+        return new BlockEntityUpdateS2CPacket(pos, -1, toClientTag(new CompoundTag()));
+    }
 
-        Some Items can be destabilized into Alchemical Matter with the according Attunement. Those items are tagged as such, and are IAspected
-        (Side note: Ael might add ways to allow for compatibility via tags or the likes)
-     */
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        if (!world.isClient) sync();
+    }
 }

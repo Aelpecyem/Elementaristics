@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.util.Identifier;
 
 public class PacketHandler {
-    public static final Identifier MEDITATE_PACKET = new Identifier(Constants.MODID, "meditate");
+    public static final Identifier MEDITATE_PACKET = new Identifier(Constants.MOD_ID, "meditate");
 
     public static void registerClientToServerPackets() {
         ServerSidePacketRegistry.INSTANCE.register(MEDITATE_PACKET, (packetContext, packetByteBuf) -> {

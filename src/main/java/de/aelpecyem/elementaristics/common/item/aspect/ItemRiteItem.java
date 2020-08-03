@@ -1,4 +1,4 @@
-package de.aelpecyem.elementaristics.common.item.rite;
+package de.aelpecyem.elementaristics.common.item.aspect;
 
 import de.aelpecyem.elementaristics.common.entity.EntityNexus;
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;

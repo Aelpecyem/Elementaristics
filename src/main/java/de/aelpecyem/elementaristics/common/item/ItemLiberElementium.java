@@ -15,11 +15,9 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import vazkii.patchouli.api.PatchouliAPI;
-import vazkii.patchouli.common.base.Patchouli;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.book.BookRegistry;
-import vazkii.patchouli.common.item.ItemModBook;
 
 public class ItemLiberElementium extends Item {
     public ItemLiberElementium() {
@@ -46,7 +44,7 @@ public class ItemLiberElementium extends Item {
         if (isRiteMode(player.getStackInHand(hand)))
             player.setCurrentHand(hand);
         else{
-            Book book = BookRegistry.INSTANCE.books.get(new Identifier(Constants.MODID, "liber_elementium"));
+            Book book = BookRegistry.INSTANCE.books.get(new Identifier(Constants.MOD_ID, "liber_elementium"));
             if (player instanceof ServerPlayerEntity) {
                 PatchouliAPI.instance.openBookGUI((ServerPlayerEntity)player, book.id);
                 SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.book_open);

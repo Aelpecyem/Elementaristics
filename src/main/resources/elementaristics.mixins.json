@@ -4,7 +4,8 @@
   "package": "de.aelpecyem.elementaristics.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "DataLoadMixin"
   ],
   "injectors": {
     "defaultRequire": 1

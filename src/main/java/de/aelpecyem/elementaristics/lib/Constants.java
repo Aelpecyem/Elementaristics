@@ -21,23 +21,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Constants {
-    public static String MODID = "elementaristics";
+    public static final String MOD_ID = "elementaristics";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final ItemGroup ELEMENTARISTICS_GROUP = FabricItemGroupBuilder.build(
-            new Identifier(MODID, "group"),
+            new Identifier(MOD_ID, "group"),
             () -> new ItemStack(ModObjects.LIBER_ELEMENTIUM));
-
-    public static class IDs {
-        public static final int AETHER_ID = 0;
-        public static final int FIRE_ID = 1;
-        public static final int WATER_ID = 2;
-        public static final int EARTH_ID = 3;
-        public static final int AIR_ID = 4;
-        public static final int POTENTIAL_ID = 5;
-    }
 
 
     public static class NBTTags {
+        public static final String ELEM_DATA = "Elem Data";
+
         public static final String MEDITATING = "Meditating";
         public static final String MEDITATE_TICKS = "Ticks Meditating";
         public static final String MAGAN_TAG = "Magan";
@@ -52,13 +45,17 @@ public class Constants {
 
         public static final String COLOR_TAG = "Color";
         public static final String TICK_COUNT = "Ticks";
+
+        public static final String ORIGIN_ITEM = "Original Item";
+
+        public static final String ASPECTS = "Aspects";
     }
 
     public static class DataTrackers {
         public static final TrackedDataHandler<AspectAttunement> ATTUNEMENT_TRACKER = new TrackedDataHandler<AspectAttunement>() {
             @Override
             public void write(PacketByteBuf data, AspectAttunement attunement) {
-                data.writeIntArray(attunement.aspects);
+                data.writeIntArray(attunement.getAspects());
             }
 
             @Override

@@ -1,32 +1,31 @@
 package de.aelpecyem.elementaristics.registry;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.aelpecyem.elementaristics.common.feature.stats.AscensionPath;
 import de.aelpecyem.elementaristics.common.feature.stats.IElemStats;
 import de.aelpecyem.elementaristics.lib.StatHelper;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.minecraft.command.EntitySelector;
-import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.command.arguments.EntityArgumentType;
-import net.minecraft.server.command.*;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.stat.Stat;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Hand;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+
+import static de.aelpecyem.elementaristics.common.handler.AlchemyHandler.Helper.*;
 
 public class ModCommands {
     public static void registerCommands() {
         LiteralArgumentBuilder builder = CommandManager.literal("elem").requires(source -> source.hasPermissionLevel(2));
 
-        for(AscensionPath path : AscensionPath.PATHS.values())
+        for (AscensionPath path : AscensionPath.PATHS.values())
             builder.then(CommandManager.literal("setAscensionPath").then(CommandManager.argument("targets", EntityArgumentType.players()).then(CommandManager.literal(path.getName()).executes(context -> executeSetAscensionPath(context, path, EntityArgumentType.getPlayers(context, "targets"))))));
         builder.then(CommandManager.literal("setAscensionStage")
                 .then(CommandManager.argument("targets", EntityArgumentType.players())
@@ -36,7 +35,36 @@ public class ModCommands {
                 .then(CommandManager.argument("targets", EntityArgumentType.players())
                         .then(CommandManager.argument("amount", IntegerArgumentType.integer(0))
                                 .executes(context -> executeSetMagan(context, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayers(context, "targets"))))));
+        builder.then(CommandManager.literal("alchemy")
+                .then(CommandManager.literal("destabilize")
+                        .executes(context -> convertHeldItem(context, 0)))
+                .then(CommandManager.literal("convert")
+                        .executes(context -> convertHeldItem(context, 1)))
+                .then(CommandManager.literal("stabilize")
+                        .executes(context -> convertHeldItem(context, 2))));
+
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int convertHeldItem(CommandContext<ServerCommandSource> context, int type) throws CommandSyntaxException {
+        PlayerEntity player = context.getSource().getPlayer();
+        ItemStack originalItem = player.getMainHandStack();
+        switch (type) {
+            case 0:
+                player.setStackInHand(Hand.MAIN_HAND, convertToAlchemyItem(player.getMainHandStack()));
+                break;
+            case 1:
+                player.setStackInHand(Hand.MAIN_HAND, convertToOriginalItem(player.getMainHandStack()));
+                break;
+            case 2:
+                player.setStackInHand(Hand.MAIN_HAND, stabilize(player.getMainHandStack()));
+                break;
+        }
+        if (!originalItem.equals(player.getMainHandStack()))
+            context.getSource().sendFeedback(new TranslatableText("elementaristics.command.convert_item.success", originalItem.getName(), player.getMainHandStack().getName()), true);
+        else
+            context.getSource().sendError(new TranslatableText("elementaristics.command.convert_item.failure", originalItem.getName()));
+        return !originalItem.equals(player.getMainHandStack()) ? 15 : 0;
     }
 
     private static int executeSetMagan(CommandContext<ServerCommandSource> context, int amount, Collection<ServerPlayerEntity> playerEntity) {
