@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.feature.stats.AscensionPath;
 import de.aelpecyem.elementaristics.common.feature.stats.IElemStats;
 import de.aelpecyem.elementaristics.lib.StatHelper;
@@ -41,9 +42,27 @@ public class ModCommands {
                 .then(CommandManager.literal("convert")
                         .executes(context -> convertHeldItem(context, 1)))
                 .then(CommandManager.literal("stabilize")
-                        .executes(context -> convertHeldItem(context, 2))));
+                        .executes(context -> convertHeldItem(context, 2)))
+                .then(CommandManager.literal("setAttunement")
+                        .then(CommandManager.argument("aether", IntegerArgumentType.integer(0, 5))
+                                .then(CommandManager.argument("fire", IntegerArgumentType.integer(0, 5))
+                                        .then(CommandManager.argument("water", IntegerArgumentType.integer(0, 5))
+                                                .then(CommandManager.argument("earth", IntegerArgumentType.integer(0, 5))
+                                                        .then(CommandManager.argument("air", IntegerArgumentType.integer(0, 5))
+                                                                .then(CommandManager.argument("potential", IntegerArgumentType.integer(0, 5)).executes(context -> changeAttunement(context))))))))));
 
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int changeAttunement(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = context.getSource().getPlayer();
+        setAttunement(player.getMainHandStack(), new AspectAttunement(IntegerArgumentType.getInteger(context, "aether"),
+                IntegerArgumentType.getInteger(context, "fire"), IntegerArgumentType.getInteger(context, "water"),
+                IntegerArgumentType.getInteger(context, "earth"), IntegerArgumentType.getInteger(context, "air"),
+                IntegerArgumentType.getInteger(context, "potential")));
+        player.setStackInHand(Hand.MAIN_HAND, stabilize(player.getMainHandStack()));
+        context.getSource().sendFeedback(new TranslatableText("elementaristics.command.set_attunement.success", player.getMainHandStack(), getAttunement(player.getMainHandStack()).toText()), true);
+        return 15;
     }
 
     private static int convertHeldItem(CommandContext<ServerCommandSource> context, int type) throws CommandSyntaxException {

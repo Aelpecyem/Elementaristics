@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static de.aelpecyem.elementaristics.lib.Constants.Colors.*;
 import static de.aelpecyem.elementaristics.lib.Constants.NBTTags.*;
 
 public class AlchemyHandler {
@@ -18,11 +19,11 @@ public class AlchemyHandler {
     public static final List<Aspect> ASPECT_LIST = new LinkedList<>();
     public static final Map<Identifier, AlchemyItem> ALCHEMY_ITEMS = new HashMap<>();
 
-    public static final Aspect AETHER = new Aspect(0, "aether", 1);
-    public static final Aspect FIRE = new Aspect(1, "fire", 0);
-    public static final Aspect WATER = new Aspect(2, "water", 3);
-    public static final Aspect EARTH = new Aspect(3, "earth", 4);
-    public static final Aspect AIR = new Aspect(4, "air", 2);
+    public static final Aspect AETHER = new Aspect(0, "aether", AETHER_COLOR, 1);
+    public static final Aspect FIRE = new Aspect(1, "fire", FIRE_COLOR, 0);
+    public static final Aspect WATER = new Aspect(2, "water", WATER_COLOR, 3);
+    public static final Aspect EARTH = new Aspect(3, "earth", EARTH_COLOR, 4);
+    public static final Aspect AIR = new Aspect(4, "air", AIR_COLOR, 2);
 
     public static void init() {
         ASPECT_LIST.add(AETHER);

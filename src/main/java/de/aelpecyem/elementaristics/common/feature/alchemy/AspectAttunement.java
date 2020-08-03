@@ -3,6 +3,10 @@ package de.aelpecyem.elementaristics.common.feature.alchemy;
 import com.google.gson.JsonObject;
 import de.aelpecyem.elementaristics.lib.Constants;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.MathHelper;
 
@@ -74,6 +78,18 @@ public class AspectAttunement {
     @Override
     public String toString() {
         return String.format("AETHER %d FIRE %d WATER %d EARTH %d AIR %d POTENTIAL %d", aspects[0], aspects[1], aspects[2], aspects[3], aspects[4], aspects[5]);
+    }
+
+    protected static final String[] arabicToRomanNumeral = {" - ", " I ", " I I ", " III ", " I V ", " V "};
+
+    public Text toText() {
+        LiteralText resultText = new LiteralText("");
+        ASPECT_LIST.forEach(aspect -> {
+            LiteralText text = new LiteralText(arabicToRomanNumeral[getAspect(aspect)]);
+            text.fillStyle(Style.EMPTY.withColor(TextColor.fromRgb(aspect.getColor())));
+            resultText.append(text);
+        });
+        return resultText.fillStyle(resultText.getStyle().withBold(true));
     }
 
     public int[] getAspects() {

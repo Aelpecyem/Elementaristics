@@ -13,6 +13,7 @@
   "elementaristics.command.set_magan.success": "Set %s's game mode to %d",
   "elementaristics.command.convert_item.success": "Successfully converted %s to %s",
   "elementaristics.command.convert_item.failure": "Error: failed to convert %s",
+  "elementaristics.command.set_attunement.success": "Set Attunement of %s to %s",
   "comment_10": "BOOK STUFF",
   "elementaristics.book.name": "Liber Elementum",
   "elementaristics.book.landing": "Putting the square in the circle",
