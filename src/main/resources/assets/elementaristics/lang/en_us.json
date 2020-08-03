@@ -1,12 +1,20 @@
 {
+  "itemGroup.elementaristics.group": "Elementaristics",
   "comment_1": "ITEMS",
   "item.elementaristics.liber_elementium": "Liber Elementium",
   "item.elementaristics.liber_elementium.rite": "Liber Elementium (Rite Mode)",
+  "item.elementaristics.alchemical_matter": "Alchemical Matter",
+  "comment_2": "BLOCKS",
+  "block.elementaristics.morning_glory": "Morning Glory",
+  "block.elementaristics.morning_glory_vines": "Morning Glory Vines",
+  "comment_3": "ENTITIES",
+  "entity.elementaristics.nexus": "Nexus",
   "comment_9": "COMMAND STUFF",
   "elementaristics.command.set_magan.success": "Set %s's game mode to %d",
   "elementaristics.command.convert_item.success": "Successfully converted %s to %s",
   "elementaristics.command.convert_item.failure": "Error: failed to convert %s",
   "comment_10": "BOOK STUFF",
   "elementaristics.book.name": "Liber Elementum",
-  "elementaristics.book.landing": "Putting the square in the circle"
+  "elementaristics.book.landing": "Putting the square in the circle",
+  "elementaristics.book.subtitle": ""
 }

@@ -1,7 +1,23 @@
 {
   "name": "elementaristics.book.name",
   "landing_text": "elementaristics.book.landing",
-  "version": 1,
+  "subtitle": "elementaristics.book.subtitle",
   "dont_generate_book": true,
-  "custom_book_item": "elementaristics:liber_elementium"
+  "custom_book_item": "elementaristics:liber_elementium",
+  "book_texture": "patchouli:textures/gui/book_blue.png",
+  "filler_texture": "patchouli:textures/gui/page_filler.png",
+  "progress_bar_background": "bd8ace",
+  "progress_bar_color": "9b42f4",
+  "macros": {
+    "$(marked)": "$(#0000ff)",
+    "$(item)": "$(#ad09e2)",
+    "Elementaristics": "$(#ad09e2)Elementaristics$()",
+    "$Air": "$(b)Air$()",
+    "$Earth": "$(2)Earth$()",
+    "$Water": "$(1)Water$()",
+    "$Fire": "$(c)Fire$()",
+    "$Aether": "$(5)Aether$()",
+    "$Magan": "$(6)Magan$()",
+    "$Mana": "$(d)Mana$()"
+  }
 }
