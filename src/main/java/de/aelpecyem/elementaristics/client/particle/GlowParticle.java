@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.client.particle;
 
 import de.aelpecyem.elementaristics.client.particle.type.MagicParticleEffect;
-import de.aelpecyem.elementaristics.lib.ColorHelper;
+import de.aelpecyem.elementaristics.lib.RenderHelper;
 import de.aelpecyem.elementaristics.registry.ModParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,10 +19,13 @@ public class GlowParticle extends SpriteBillboardParticle {
     public GlowParticle(ClientWorld world, double x, double y, double z, double velX, double velY, double velZ, MagicParticleEffect.MagicParticleInfo info) {
         super(world, x, y, z, velX, velY, velZ);
         scale *= info.getSize();
-
-        colorRed = (((info.getColor() >> 16) & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
-        colorBlue = (((info.getColor() >> 8) & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
-        colorGreen = ((info.getColor() & 255) / 255F) * (1F - random.nextFloat() * 0.25F);
+        velocityX = velX;
+        velocityY = velY;
+        velocityZ = velZ;
+        colorRed = (((info.getColor() >> 16) & 255) / 255F);
+        colorGreen = (((info.getColor() >> 8) & 255) / 255F);
+        colorBlue = ((info.getColor() & 255) / 255F);
+        maxAge = 120;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class GlowParticle extends SpriteBillboardParticle {
     }
 
     private boolean isBright() {
-        return !ColorHelper.isDark(colorRed, colorGreen, colorBlue);
+        return !RenderHelper.isDark(colorRed, colorGreen, colorBlue);
     }
 
 

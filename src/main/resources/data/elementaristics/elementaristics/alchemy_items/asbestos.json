@@ -1,0 +1,26 @@
+{
+  "type": "elementaristics:alchemy_item",
+  "ingredient": [
+    {
+      "item": "elementaristics:asbestos"
+    },
+    {
+      "item": "minecraft:diorite"
+    },
+    {
+      "item": "minecraft:quartz"
+    }
+  ],
+  "item": "elementaristics:asbestos",
+  "stabilize": true,
+  "destabilize": true,
+  "color": 6658915,
+  "aspects": {
+    "aether": 0,
+    "fire": 0,
+    "water": 0,
+    "earth": 3,
+    "air": 1,
+    "potential": 1
+  }
+}

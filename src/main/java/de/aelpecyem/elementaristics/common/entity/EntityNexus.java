@@ -1,8 +1,8 @@
 package de.aelpecyem.elementaristics.common.entity;
 
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
-import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants.NBTTags;
+import de.aelpecyem.elementaristics.lib.RenderHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -55,7 +55,7 @@ public class EntityNexus extends Entity {
 
     @Environment(EnvType.CLIENT)//todo finish color compos method
     private void updateColors() {
-        rgb = ColorHelper.blendTowards(rgb, targetrgb, 0.05D);
+        rgb = RenderHelper.blendTowards(rgb, targetrgb, 0.05D);
     }
 
 

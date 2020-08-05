@@ -98,6 +98,14 @@ public class AspectAttunement {
         return aspects;
     }
 
+    public float getAspectSaturation() {
+        int totalAspect = 0;
+        for (Aspect aspect : ASPECT_LIST) {
+            totalAspect += getAspect(aspect);
+        }
+        return totalAspect / 25F;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

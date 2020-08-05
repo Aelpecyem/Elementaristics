@@ -45,6 +45,7 @@ public class Constants {
 
         public static final String COLOR_TAG = "Color";
         public static final String TICK_COUNT = "Ticks";
+        public static final String ITEM_COUNT = "Items";
 
         public static final String ORIGIN_ITEM = "Original Item";
 

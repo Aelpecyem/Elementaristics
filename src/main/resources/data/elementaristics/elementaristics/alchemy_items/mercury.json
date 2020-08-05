@@ -1,0 +1,23 @@
+{
+  "type": "elementaristics:alchemy_item",
+  "ingredient": [
+    {
+      "item": "elementaristics:mercury"
+    },
+    {
+      "item": "minecraft:prismarine_shard"
+    }
+  ],
+  "item": "elementaristics:mercury",
+  "stabilize": true,
+  "destabilize": true,
+  "color": 6658987,
+  "aspects": {
+    "aether": 0,
+    "fire": 0,
+    "water": 3,
+    "earth": 2,
+    "air": 0,
+    "potential": 1
+  }
+}

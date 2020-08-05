@@ -3,8 +3,8 @@ package de.aelpecyem.elementaristics.common.item.aspect;
 import de.aelpecyem.elementaristics.common.entity.EntityNexus;
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.handler.AlchemyHandler;
-import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants;
+import de.aelpecyem.elementaristics.lib.RenderHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -38,6 +38,6 @@ public class ItemRiteDebugger extends ItemRiteItem {
         int type = user.getHorizontalFacing().getId();
         if (Math.abs(user.pitch) > 50) type = user.pitch < 0 ? 0 : 1;
         if (type < 5)
-            nexus.targetrgb = ColorHelper.toRGB(AlchemyHandler.ASPECT_LIST.get(type).getColor());
+            nexus.targetrgb = RenderHelper.toRGB(AlchemyHandler.ASPECT_LIST.get(type).getColor());
     }
 }

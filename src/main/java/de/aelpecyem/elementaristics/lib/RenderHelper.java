@@ -1,8 +1,18 @@
 package de.aelpecyem.elementaristics.lib;
 
-public class ColorHelper {
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.texture.Sprite;
+import net.minecraft.util.math.Matrix4f;
+
+public class RenderHelper {
+    public static void drawPlane(Matrix4f mat, VertexConsumer buffer, Sprite sprite, int light, int overlay) {
+        buffer.vertex(mat, 0, 0, 1).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(1, 1, 1).next();
+        buffer.vertex(mat, 1, 0, 1).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).overlay(overlay).normal(1, 1, 1).next();
+        buffer.vertex(mat, 1, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMinV()).light(light).overlay(overlay).normal(1, 1, 1).next();
+        buffer.vertex(mat, 0, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(1, 1, 1).next();
+    }
+
     public static boolean isDark(float r, float g, float b) {
-        //change this to consider luminescence of grayscale or so
         return isDark(r, g, b, 0.5F);
     }
 

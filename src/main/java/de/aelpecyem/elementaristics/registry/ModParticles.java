@@ -14,7 +14,9 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
@@ -35,6 +37,18 @@ public class ModParticles {
     }
 
     public static class Helper {
+        public static void spawnDefaultBlockParticles(World world, BlockPos pos, int color) {
+            double motionX = world.random.nextGaussian() * 0.001D;
+            double motionY = world.random.nextGaussian() * 0.001D;
+            double motionZ = world.random.nextGaussian() * 0.001D;
+            spawnBlockParticles(world, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 0.5F, color, 0.5F, 0.5F, motionX, motionY, motionZ);
+        }
+
+        //this could also be a special type that fades in/out
+        public static void spawnBlockParticles(World world, double posX, double posY, double posZ, float size, int color, float spreadXZ, float spreadY, double motionX, double motionY, double motionZ) {
+            world.addParticle(new MagicParticleEffect(GLOW, new MagicParticleEffect.MagicParticleInfo(size, color)), posX + world.random.nextGaussian() * spreadXZ, posY + world.random.nextGaussian() * spreadY, posZ + world.random.nextGaussian() * spreadXZ, motionX, motionY, motionZ);
+        }
+
         public static void spawnDirectedBurst(Entity from, Entity to, int color, int size) {
             //new extension of the glow particle that uses the velocity in the factory as coordinates to move to
         }

@@ -1,5 +1,6 @@
 package de.aelpecyem.elementaristics.common.item.aspect;
 
+import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.handler.AlchemyHandler;
 import de.aelpecyem.elementaristics.lib.Constants;
 import net.minecraft.client.item.TooltipContext;
@@ -18,8 +19,12 @@ public class ItemAlchemy extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (stack.hasTag())
+        if (stack.hasTag() && stack.getTag().contains(Constants.NBTTags.ELEM_DATA))
             tooltip.add(AlchemyHandler.Helper.getAttunement(stack).toText());
+        else {
+            AspectAttunement attunement = AlchemyHandler.Helper.getStandardAttunement(stack);
+            if (attunement != null) tooltip.add(attunement.toText());
+        }
         super.appendTooltip(stack, world, tooltip, context);
     }
 }

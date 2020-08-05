@@ -67,6 +67,7 @@ public class AlchemyHandler {
                 stack = new ItemStack(ModObjects.ALCHEMICAL_MATTER, stack.getCount());
                 stack.setTag(originalStack.getTag());
                 setOriginStack(stack, originalStack);
+                setColor(stack, item.getColor());
                 setAttunement(stack, item.getAspects());
             }
             return stack;
@@ -106,10 +107,34 @@ public class AlchemyHandler {
             attunement.serialize(getAlchemyData(stack));
         }
 
+        public static void setColor(ItemStack stack, int color) {
+            checkTag(stack);
+            getAlchemyData(stack).putInt(COLOR_TAG, color);
+        }
+
+        public static int getColor(AspectAttunement attunement) {
+            return 0; //todo meaningful way of calculating that
+        }
+
         public static AspectAttunement getAttunement(ItemStack stack) {
             checkTag(stack);
             if (!getAlchemyData(stack).contains(ASPECTS)) return new AspectAttunement();
             return AspectAttunement.deserialize(getAlchemyData(stack));
+        }
+
+        public static AspectAttunement getStandardAttunement(ItemStack stack) {
+            List<AlchemyItem> items = AlchemyHandler.ALCHEMY_ITEMS.values().stream().filter(alchemyItem -> alchemyItem.getStabilizeItem().equals(stack.getItem())).collect(Collectors.toList());
+            if (!items.isEmpty()) {
+                AlchemyItem item = items.get(SELECTOR_RANDOM.nextInt(items.size()));
+                return item.getAspects();
+            }
+            return new AspectAttunement();
+        }
+
+        public static int getColor(ItemStack stack) {
+            checkTag(stack);
+            if (!getAlchemyData(stack).contains(COLOR_TAG)) return MAGAN_COLOR;
+            return getAlchemyData(stack).getInt(COLOR_TAG);
         }
 
         public static CompoundTag getAlchemyData(ItemStack stack) {
@@ -122,6 +147,14 @@ public class AlchemyHandler {
                 stack.setTag(new CompoundTag());
                 stack.getTag().put(ELEM_DATA, new CompoundTag());
             }
+        }
+
+        public static ItemStack createAlchemicalMatter(ItemStack baseStack, AspectAttunement attunement, int color) {
+            ItemStack result = new ItemStack(ModObjects.ALCHEMICAL_MATTER, baseStack.getCount());
+            result.setTag(baseStack.getTag());
+            setAttunement(result, attunement);
+            setColor(result, color);
+            return result;
         }
     }
 }

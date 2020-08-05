@@ -55,20 +55,20 @@ public class MagicParticleEffect implements ParticleEffect {
 
     public static class MagicParticleInfo {
         private static final Codec<MagicParticleInfo> CODEC = RecordCodecBuilder.create((builder) -> builder.group(
-                Codec.INT.fieldOf("Size").forGetter(MagicParticleInfo::getSize),
+                Codec.FLOAT.fieldOf("Size").forGetter(MagicParticleInfo::getSize),
                 Codec.INT.fieldOf("Color").forGetter(MagicParticleInfo::getColor)
         ).apply(builder, MagicParticleInfo::new));
 
-        private final int SIZE;
+        private final float SIZE;
         private final int COLOR;
 
-        public MagicParticleInfo(int size, int color) {
+        public MagicParticleInfo(float size, int color) {
             this.SIZE = size;
             this.COLOR = color;
         }
 
 
-        public int getSize() {
+        public float getSize() {
             return SIZE;
         }
 
@@ -77,15 +77,16 @@ public class MagicParticleEffect implements ParticleEffect {
         }
 
         public void write(PacketByteBuf buf) {
-            buf.writeInt(SIZE);
+            buf.writeFloat(SIZE);
+            buf.writeInt(COLOR);
         }
 
         public static MagicParticleInfo read(PacketByteBuf buf) {
-            return new MagicParticleInfo(buf.readInt(), buf.readInt());
+            return new MagicParticleInfo(buf.readFloat(), buf.readInt());
         }
 
         public static MagicParticleInfo read(StringReader reader) throws CommandSyntaxException {
-            int size = reader.readInt();
+            float size = reader.readFloat();
             reader.expect(' ');
             int color = reader.readInt();
             return new MagicParticleInfo(size, color);

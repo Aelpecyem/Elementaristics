@@ -1,0 +1,23 @@
+{
+  "type": "elementaristics:alchemy_item",
+  "ingredient": [
+    {
+      "item": "elementaristics:sulfur"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "item": "elementaristics:sulfur",
+  "stabilize": true,
+  "destabilize": true,
+  "color": 16754688,
+  "aspects": {
+    "aether": 0,
+    "fire": 3,
+    "water": 0,
+    "earth": 1,
+    "air": 1,
+    "potential": 1
+  }
+}
