@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemAlchemy extends Item {
-    public ItemAlchemy() {
-        super(new Settings().group(Constants.ELEMENTARISTICS_GROUP));
+    public ItemAlchemy(Settings settings) {
+        super(settings);
     }
 
     @Override

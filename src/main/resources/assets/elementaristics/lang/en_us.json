@@ -14,6 +14,8 @@
   "block.elementaristics.boiling_basin": "Boiling Basin",
   "comment_3": "ENTITIES",
   "entity.elementaristics.nexus": "Nexus",
+  "comment_8": "MESSAGES",
+  "message.elementaristics.extract_item.requirement": "You need a %s to extract this",
   "comment_9": "COMMAND STUFF",
   "elementaristics.command.set_magan.success": "Set %s's game mode to %d",
   "elementaristics.command.convert_item.success": "Successfully converted %s to %s",

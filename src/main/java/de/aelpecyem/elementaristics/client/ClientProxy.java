@@ -4,8 +4,11 @@ import de.aelpecyem.elementaristics.client.handler.ClientEventHandler;
 import de.aelpecyem.elementaristics.client.handler.ShaderHandler;
 import de.aelpecyem.elementaristics.client.particle.GlowParticle;
 import de.aelpecyem.elementaristics.client.render.blockentity.BlockRenderBoilingBasin;
+import de.aelpecyem.elementaristics.common.feature.alchemy.Aspect;
+import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.handler.AlchemyHandler;
 import de.aelpecyem.elementaristics.common.handler.networking.PacketHandler;
+import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.registry.ModEntities;
 import de.aelpecyem.elementaristics.registry.ModObjects;
@@ -26,6 +29,9 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import static de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement.ATTUNEMENT_CAP;
+import static de.aelpecyem.elementaristics.common.handler.AlchemyHandler.Helper;
+
 @Environment(EnvType.CLIENT)
 public class ClientProxy implements ClientModInitializer {
     public static final ClientConfig CONFIG = ConfigManager.loadConfig(ClientConfig.class);
@@ -44,7 +50,16 @@ public class ClientProxy implements ClientModInitializer {
         ClientEventHandler.addEvents();
         ShaderHandler.init();
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> AlchemyHandler.Helper.getColor(stack), ModObjects.ALCHEMICAL_MATTER);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            AspectAttunement attunement = Helper.getAttunement(stack);
+            for (Aspect aspect : AlchemyHandler.ASPECT_LIST) {
+                if (tintIndex == aspect.getId() && attunement.getAspect(aspect) > 0)
+                    //todo correct blending involving both potential and aspect strength, maybe layer for potency only
+                    return aspect.getColor();//(attunement.getAspect(aspect) + attunement.getPotential()) / 2);
+            }
+            return ColorHelper.blendTowards(Constants.Colors.POTENTIAL_LOW, 0xFFFFF, attunement.getPotential() / (float) ATTUNEMENT_CAP);
+        }, ModObjects.ALCHEMICAL_MATTER);
+
         ClientSpriteRegistryCallback.registerBlockAtlas((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(Constants.MOD_ID, "misc/fluid"));
         });

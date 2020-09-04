@@ -1,8 +1,9 @@
 package de.aelpecyem.elementaristics.client.render.blockentity;
 
 import de.aelpecyem.elementaristics.common.block.blockentity.BlockEntityBoilingBasin;
+import de.aelpecyem.elementaristics.common.handler.AlchemyHandler;
+import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants;
-import de.aelpecyem.elementaristics.lib.RenderHelper;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
@@ -42,17 +43,18 @@ public class BlockRenderBoilingBasin extends BlockEntityRenderer<BlockEntityBoil
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90));
         matrices.scale(0.7F, 0.7F, 0.7F);
         matrices.translate(0, -0.1, -0.1);
-        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(0), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        if (entity.getStack(0).getItem().getRecipeRemainder() == null)
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(0), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.pop();
         matrices.pop();
     }
 
     public static void drawFluidCube(BlockEntityBoilingBasin entity, VertexConsumer buffer, MatrixStack matStack, Sprite sprite, int light, int overlay) {
-        if (entity.itemCount > 0) {
-            sprite.tickAnimation();
-            float heightFactor = Math.min(entity.itemCount, 2) / 2F;
+        if (entity.itemCount > 0 || (!entity.getStack(0).isEmpty() && entity.getStack(0).getItem().getRecipeRemainder() != null)) {
+            float heightFactor = entity.itemCount > 0 ? Math.min(entity.itemCount - Math.min(entity.cooldownTicks / (float) BlockEntityBoilingBasin.MAX_COOLDOWN_TICKS, 0.85F), 2) / 2F : 0.10F;
             float height = 0.7F * heightFactor;
-            entity.currentColor = RenderHelper.blendTowards(entity.currentColor, RenderHelper.toRGB(entity.targetColor), 0.05F);
+            if (entity.itemCount > 0)
+                entity.currentColor = ColorHelper.blendTowards(entity.currentColor, AlchemyHandler.Helper.getColorForWorldTick(entity.getAspects(), entity.getWorld().getLevelProperties().getTime()), 0.03F); //ColorHelper.blendTowards(entity.currentColor, AlchemyHandler.Helper.getColorForWorldTick(entity.getAspects(), entity.getWorld().getLevelProperties().getTime()), 0.05F);
             matStack.translate(0, 0, 0.5);
             matStack.scale(0.5F, 0.5F, 0.5F);
             Matrix4f mat = matStack.peek().getModel();
@@ -61,7 +63,6 @@ public class BlockRenderBoilingBasin extends BlockEntityRenderer<BlockEntityBoil
                 drawPlane(buffer, mat, sprite, light, overlay, height, heightFactor, entity.currentColor);
                 mat.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(90));
             }
-
             mat.multiply(Vector3f.NEGATIVE_X.getDegreesQuaternion(90));
             drawPlane(buffer, mat, sprite, light, overlay, 1, 1, entity.currentColor);
             matStack.translate(0, 1, height);
@@ -70,7 +71,8 @@ public class BlockRenderBoilingBasin extends BlockEntityRenderer<BlockEntityBoil
         }
     }
 
-    private static void drawPlane(VertexConsumer buffer, Matrix4f mat, Sprite sprite, int light, int overlay, float height, float heightFactor, int[] rgb) {
+    private static void drawPlane(VertexConsumer buffer, Matrix4f mat, Sprite sprite, int light, int overlay, float height, float heightFactor, int rgbDecimal) {
+        int[] rgb = ColorHelper.toRGB(rgbDecimal);
         float maxV = (sprite.getMaxV() - sprite.getMinV()) * heightFactor;
         buffer.vertex(mat, 0, height, 0).color(rgb[0], rgb[1], rgb[2], 225).texture(sprite.getMinU(), sprite.getMinV() + maxV).light(light).overlay(overlay).normal(1, 1, 1).next();
         buffer.vertex(mat, 1, height, 0).color(rgb[0], rgb[1], rgb[2], 225).texture(sprite.getMaxU(), sprite.getMinV() + maxV).light(light).overlay(overlay).normal(1, 1, 1).next();

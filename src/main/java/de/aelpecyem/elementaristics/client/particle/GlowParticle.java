@@ -1,7 +1,7 @@
 package de.aelpecyem.elementaristics.client.particle;
 
 import de.aelpecyem.elementaristics.client.particle.type.MagicParticleEffect;
-import de.aelpecyem.elementaristics.lib.RenderHelper;
+import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.registry.ModParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,7 +41,7 @@ public class GlowParticle extends SpriteBillboardParticle {
     }
 
     private boolean isBright() {
-        return !RenderHelper.isDark(colorRed, colorGreen, colorBlue);
+        return !ColorHelper.isDark(colorRed, colorGreen, colorBlue);
     }
 
 

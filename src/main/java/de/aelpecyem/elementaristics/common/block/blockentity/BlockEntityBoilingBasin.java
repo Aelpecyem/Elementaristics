@@ -2,6 +2,7 @@ package de.aelpecyem.elementaristics.common.block.blockentity;
 
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.handler.AlchemyHandler;
+import de.aelpecyem.elementaristics.lib.Util;
 import de.aelpecyem.elementaristics.registry.ModObjects;
 import de.aelpecyem.elementaristics.registry.ModParticles;
 import net.fabricmc.api.EnvType;
@@ -23,9 +24,9 @@ public class BlockEntityBoilingBasin extends BlockEntityBase implements Implemen
     private AspectAttunement aspects = new AspectAttunement();
     public int itemCount;
     public int cooldownTicks;
-    public int targetColor = 0xFFFFFF;
     @Environment(EnvType.CLIENT)
-    public int[] currentColor = {255, 255, 255};
+    public int currentColor = 0xFFFFFF;
+    public static final int MAX_COOLDOWN_TICKS = 60;
 
     public BlockEntityBoilingBasin() {
         super(ModObjects.BOILING_BASIN_BLOCK_ENTITY_TYPE);
@@ -35,7 +36,6 @@ public class BlockEntityBoilingBasin extends BlockEntityBase implements Implemen
     public CompoundTag toTag(CompoundTag tag) {
         Inventories.toTag(tag, ITEMS);
         aspects.serialize(tag);
-        tag.putInt(COLOR_TAG, targetColor);
         tag.putInt(ITEM_COUNT, itemCount);
         tag.putInt(TICK_COUNT, cooldownTicks);
         return super.toTag(tag);
@@ -45,7 +45,6 @@ public class BlockEntityBoilingBasin extends BlockEntityBase implements Implemen
     public void fromTag(BlockState state, CompoundTag tag) {
         Inventories.fromTag(tag, ITEMS);
         aspects = AspectAttunement.deserialize(tag);
-        targetColor = tag.getInt(COLOR_TAG);
         itemCount = tag.getInt(ITEM_COUNT);
         cooldownTicks = tag.getInt(TICK_COUNT);
         super.fromTag(state, tag);
@@ -55,32 +54,37 @@ public class BlockEntityBoilingBasin extends BlockEntityBase implements Implemen
     public void tick() {
         if (getStack(0).isEmpty() && !isLit() && aspects.getAspectSaturation() > 0 && aspects.getPotential() > 0) {
             cooldownTicks++;
-            if (world.isClient) doCooldownParticles();
-            if (cooldownTicks >= 60) {
+            if (world.isClient) doParticles();
+            if (cooldownTicks >= MAX_COOLDOWN_TICKS) {
                 cleanUp();
             }
+            markDirty();
         }
     }
 
-    private void doCooldownParticles() {
+    public void doParticles() {
         if (world.random.nextBoolean())
-            ModParticles.Helper.spawnBlockParticles(world, pos.getX() + 0.5F, pos.getY() + 0.7F, pos.getZ() + 0.5F, 0.5F, targetColor, 0.15F, 0.1F, world.random.nextGaussian() * 0.01D, world.random.nextFloat() * 0.03D, world.random.nextGaussian() * 0.01D);
+            ModParticles.Helper.spawnBlockParticles(world, pos.getX() + 0.5F, pos.getY() + 0.7F, pos.getZ() + 0.5F, 0.5F, currentColor, 0.15F, 0.1F, world.random.nextGaussian() * 0.01D, world.random.nextFloat() * 0.03D, world.random.nextGaussian() * 0.01D);
     }
 
     private void cleanUp() {
-        setStack(0, AlchemyHandler.Helper.stabilize(AlchemyHandler.Helper.createAlchemicalMatter(new ItemStack(ModObjects.ALCHEMICAL_MATTER), aspects, targetColor)));
+        setStack(0, AlchemyHandler.Helper.stabilize(AlchemyHandler.Helper.createAlchemicalMatter(new ItemStack(ModObjects.ALCHEMICAL_MATTER), aspects)));
         aspects = new AspectAttunement();
         cooldownTicks = 0;
-        targetColor = 0xFFFFFF;
         itemCount = 0;
-        markDirty();
     }
 
-    public ItemStack tryAddItem(ItemStack stack) {
+    public ItemStack tryAddItem(PlayerEntity player, ItemStack stack) {
+        ItemStack remainderStack = ItemStack.EMPTY;
+        if (stack.getItem().getRecipeRemainder() != null)
+            remainderStack = new ItemStack(stack.getItem().getRecipeRemainder());
         if (isLit() && (!AlchemyHandler.Helper.convertToAlchemyItem(stack).equals(stack) || (stack.hasTag() && stack.getTag().contains(ELEM_DATA))) && itemCount < ITEM_COUNT_CAP) {
             aspects.addAspects(AlchemyHandler.Helper.getAttunement(stack));
-            targetColor = AlchemyHandler.Helper.getColor(stack);
+            if (itemCount < 1 && world.isClient)
+                currentColor = AlchemyHandler.Helper.getColorForWorldTick(aspects, world.getLevelProperties().getTime());
             stack.decrement(1);
+            if (!remainderStack.isEmpty())
+                Util.giveItem(world, player, remainderStack);
             itemCount++;
             markDirty();
         }

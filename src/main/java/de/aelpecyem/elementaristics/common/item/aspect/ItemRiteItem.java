@@ -3,7 +3,6 @@ package de.aelpecyem.elementaristics.common.item.aspect;
 import de.aelpecyem.elementaristics.common.entity.EntityNexus;
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
 import de.aelpecyem.elementaristics.common.feature.alchemy.IAspectedItem;
-import de.aelpecyem.elementaristics.lib.RenderHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -48,7 +47,7 @@ public class ItemRiteItem extends Item implements IAspectedItem {
 
     public void sendChangeSignal(ItemStack stack, World world, LivingEntity user, EntityNexus nexus) {
         //also particles
-        nexus.targetrgb = RenderHelper.toRGB(color);
+        nexus.targetrgb = color;
     }
 
     @Override

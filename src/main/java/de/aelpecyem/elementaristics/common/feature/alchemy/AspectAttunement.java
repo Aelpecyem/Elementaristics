@@ -10,7 +10,7 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static de.aelpecyem.elementaristics.common.handler.AlchemyHandler.*;
 
@@ -115,14 +115,22 @@ public class AspectAttunement {
     }
 
     public Aspect getDominantAspect() {
-        int highestIndex = 0;
-        int highestValue = 0;
-        for (int i = 0; i < aspects.length; i++) {
-            if (aspects[i] > highestValue) {
-                highestIndex = i;
-                highestValue = aspects[i];
+        return sortyByPrevalence().get(0);
+    }
+
+    public List<Aspect> sortyByPrevalence() {
+        List<Aspect> list = new LinkedList<>(ASPECT_LIST);
+        list.sort(Comparator.comparingInt(aspect -> getAspect((Aspect) aspect)).reversed());
+        return list;
+    }
+
+    public Integer[] getColorCycle() {
+        List<Integer> cycleList = new ArrayList<>();
+        ASPECT_LIST.forEach(aspect -> {
+            for (int i = 0; i < getAspect(aspect); i++) {
+                cycleList.add(aspect.getColor(getPotential()));
             }
-        }
-        return ASPECT_LIST.get(highestIndex);
+        });
+        return cycleList.toArray(new Integer[cycleList.size()]);
     }
 }

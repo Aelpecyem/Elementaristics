@@ -1,8 +1,8 @@
 package de.aelpecyem.elementaristics.common.entity;
 
 import de.aelpecyem.elementaristics.common.feature.alchemy.AspectAttunement;
+import de.aelpecyem.elementaristics.lib.ColorHelper;
 import de.aelpecyem.elementaristics.lib.Constants.NBTTags;
-import de.aelpecyem.elementaristics.lib.RenderHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -21,14 +21,11 @@ import static de.aelpecyem.elementaristics.lib.Constants.DataTrackers.*;
 
 public class EntityNexus extends Entity {
     @Environment(EnvType.CLIENT)
-    public int[] rgb;
-
-    public int[] targetrgb;
+    public int rgb;
+    public int targetrgb;
 
     public EntityNexus(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
-        targetrgb = new int[3];
-        rgb = new int[3];
     }
 
     @Override
@@ -55,7 +52,7 @@ public class EntityNexus extends Entity {
 
     @Environment(EnvType.CLIENT)//todo finish color compos method
     private void updateColors() {
-        rgb = RenderHelper.blendTowards(rgb, targetrgb, 0.05D);
+        rgb = ColorHelper.blendTowards(rgb, targetrgb, 0.05D);
     }
 
 
@@ -68,9 +65,7 @@ public class EntityNexus extends Entity {
         else
             dataTracker.set(OWNER_UUID, Optional.empty());
         setAttunement(AspectAttunement.deserialize(tag));
-        for (int i = 0; i < tag.getIntArray(NBTTags.COLOR_TAG).length; i++) {
-            targetrgb[i] = tag.getIntArray(NBTTags.COLOR_TAG)[i];
-        }
+        targetrgb = tag.getInt(NBTTags.COLOR_TAG);
 
     }
 
@@ -82,10 +77,10 @@ public class EntityNexus extends Entity {
         if (getOwnerUUID().isPresent())
             tag.putUuid(NBTTags.OWNER_UUID_TAG, getOwnerUUID().get());
         getAttunement().serialize(tag);
-        tag.putIntArray(NBTTags.COLOR_TAG, targetrgb);
+        tag.putInt(NBTTags.COLOR_TAG, targetrgb);
     }
 
-    public int[] getColors() {
+    public int getColor() {
         return rgb;
     }
 

@@ -72,7 +72,8 @@ public class BlockBoilingBasin extends HorizontalFacingBlock implements Waterlog
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BlockEntityBoilingBasin) {
-                ItemScatterer.spawn(world, pos, ((BlockEntityBoilingBasin) blockEntity).getItems());
+                if (!(((BlockEntityBoilingBasin) blockEntity).getStack(0).isEmpty() || ((BlockEntityBoilingBasin) blockEntity).getStack(0).getItem().getRecipeRemainder() != null))
+                    ItemScatterer.spawn(world, pos, ((BlockEntityBoilingBasin) blockEntity).getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -88,21 +89,19 @@ public class BlockBoilingBasin extends HorizontalFacingBlock implements Waterlog
             world.setBlockState(pos, state.with(LIT, blockEntity.canBeLit(player)));
             return ActionResult.SUCCESS;
         } else {
-            if (stack.isEmpty()) {
-                if (!blockEntity.getStack(0).isEmpty() && blockEntity.canPlayerUse(player)) {
-                    Util.giveItem(world, player, blockEntity.removeStack(0));
-                    blockEntity.markDirty();
-                    return ActionResult.SUCCESS;
-                } else if (player.isSneaking() && blockEntity.isLit()) {
-                    world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.6F, 0.5F + world.random.nextFloat());
-                    world.setBlockState(pos, state.with(LIT, false));
-                }
+            if (player.isSneaking() && blockEntity.isLit()) {
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.6F, 0.5F + world.random.nextFloat());
+                world.setBlockState(pos, state.with(LIT, false));
+                blockEntity.cooldownTicks = 0;
+                blockEntity.markDirty();
+            } else if (!blockEntity.getStack(0).isEmpty() && Util.tryExtractItemWithContainer(player, hand, blockEntity, 0)) {
+                return ActionResult.SUCCESS;
             } else if (blockEntity.canPlayerUse(player)) {
-                ItemStack resultStack = blockEntity.tryAddItem(stack);
+                ItemStack resultStack = blockEntity.tryAddItem(player, stack);
                 if (resultStack.equals(stack)) return ActionResult.FAIL;
                 player.setStackInHand(hand, resultStack);
+                blockEntity.markDirty();
                 return ActionResult.CONSUME;
-
             }
         }
         return super.onUse(state, world, pos, player, hand, hit);
@@ -132,7 +131,14 @@ public class BlockBoilingBasin extends HorizontalFacingBlock implements Waterlog
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
         if (state.get(LIT)) {
-            world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
+            if (random.nextBoolean()) {
+                world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
+            } else {
+                BlockEntity basin = world.getBlockEntity(pos);
+                if (basin instanceof BlockEntityBoilingBasin && ((BlockEntityBoilingBasin) basin).getAspects().getAspectSaturation() > 0) {
+                    ((BlockEntityBoilingBasin) basin).doParticles();
+                }
+            }
         }
     }
 

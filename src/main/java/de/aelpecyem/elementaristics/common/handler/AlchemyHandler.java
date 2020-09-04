@@ -19,11 +19,11 @@ public class AlchemyHandler {
     public static final List<Aspect> ASPECT_LIST = new LinkedList<>();
     public static final Map<Identifier, AlchemyItem> ALCHEMY_ITEMS = new HashMap<>();
 
-    public static final Aspect AETHER = new Aspect(0, "aether", AETHER_COLOR, 1);
-    public static final Aspect FIRE = new Aspect(1, "fire", FIRE_COLOR, 0);
-    public static final Aspect WATER = new Aspect(2, "water", WATER_COLOR, 3);
-    public static final Aspect EARTH = new Aspect(3, "earth", EARTH_COLOR, 4);
-    public static final Aspect AIR = new Aspect(4, "air", AIR_COLOR, 2);
+    public static final Aspect AETHER = new Aspect(0, "aether", AETHER_COLOR);
+    public static final Aspect FIRE = new Aspect(1, "fire", FIRE_COLOR);
+    public static final Aspect WATER = new Aspect(2, "water", WATER_COLOR);
+    public static final Aspect EARTH = new Aspect(3, "earth", EARTH_COLOR);
+    public static final Aspect AIR = new Aspect(4, "air", AIR_COLOR);
 
     public static void init() {
         ASPECT_LIST.add(AETHER.getId(), AETHER);
@@ -45,11 +45,6 @@ public class AlchemyHandler {
             return attunements;
         }
 
-        public static AspectAttunement[] sortByBoil(AspectAttunement[] attunements) {
-            Arrays.sort(attunements, Comparator.comparingInt(aspect -> aspect.getDominantAspect().getRelativeBoiling()));
-            return attunements;
-        }
-
         public static AspectAttunement mergeAttunement(AspectAttunement... attunement) {
             AspectAttunement addAttunement = new AspectAttunement();
             for (AspectAttunement aspectAttunement : attunement) {
@@ -67,7 +62,6 @@ public class AlchemyHandler {
                 stack = new ItemStack(ModObjects.ALCHEMICAL_MATTER, stack.getCount());
                 stack.setTag(originalStack.getTag());
                 setOriginStack(stack, originalStack);
-                setColor(stack, item.getColor());
                 setAttunement(stack, item.getAspects());
             }
             return stack;
@@ -107,15 +101,6 @@ public class AlchemyHandler {
             attunement.serialize(getAlchemyData(stack));
         }
 
-        public static void setColor(ItemStack stack, int color) {
-            checkTag(stack);
-            getAlchemyData(stack).putInt(COLOR_TAG, color);
-        }
-
-        public static int getColor(AspectAttunement attunement) {
-            return 0; //todo meaningful way of calculating that
-        }
-
         public static AspectAttunement getAttunement(ItemStack stack) {
             checkTag(stack);
             if (!getAlchemyData(stack).contains(ASPECTS)) return new AspectAttunement();
@@ -131,11 +116,6 @@ public class AlchemyHandler {
             return new AspectAttunement();
         }
 
-        public static int getColor(ItemStack stack) {
-            checkTag(stack);
-            if (!getAlchemyData(stack).contains(COLOR_TAG)) return MAGAN_COLOR;
-            return getAlchemyData(stack).getInt(COLOR_TAG);
-        }
 
         public static CompoundTag getAlchemyData(ItemStack stack) {
             return (CompoundTag) stack.getTag().get(ELEM_DATA);
@@ -149,12 +129,20 @@ public class AlchemyHandler {
             }
         }
 
-        public static ItemStack createAlchemicalMatter(ItemStack baseStack, AspectAttunement attunement, int color) {
+        public static ItemStack createAlchemicalMatter(ItemStack baseStack, AspectAttunement attunement) {
             ItemStack result = new ItemStack(ModObjects.ALCHEMICAL_MATTER, baseStack.getCount());
             result.setTag(baseStack.getTag());
             setAttunement(result, attunement);
-            setColor(result, color);
             return result;
+        }
+
+        public static int getColorForWorldTick(AspectAttunement attunement, long worldTime) {
+            Integer[] cycle = attunement.getColorCycle();
+            if (cycle.length > 0) {
+                int step = (int) (worldTime % (20 * cycle.length)) / 20;
+                return cycle[step];
+            }
+            return Integer.valueOf(0xFFFFFF);
         }
     }
 }

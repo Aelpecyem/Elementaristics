@@ -3,6 +3,7 @@ package de.aelpecyem.elementaristics.client.render.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.aelpecyem.elementaristics.common.entity.EntityNexus;
+import de.aelpecyem.elementaristics.lib.ColorHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -32,9 +33,7 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
             Random random = new Random(432L);
             VertexConsumer vertexBuilder = buffer.getBuffer(NEXUS);
             matrices.push();
-            int red = nexus.getColors()[0];
-            int green = nexus.getColors()[1];
-            int blue = nexus.getColors()[2];
+            int[] rgb = ColorHelper.toRGB(nexus.getColor());
             int baseValue = 55 + (nexus.getAttunement().getPotential() * 40); //155 + (potency * 20) more or less
             matrices.translate(0, 0.25, 0);
             GL11.glDepthMask(false);
@@ -55,19 +54,19 @@ public class RenderNexus extends EntityRenderer<EntityNexus> {
 
                 vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
                 vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
-                vertexBuilder.vertex(matrix, -0.86602540378F * width, length, -0.5F * width).color(red, green, blue, 50).next();
+                vertexBuilder.vertex(matrix, -0.86602540378F * width, length, -0.5F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
 
-                vertexBuilder.vertex(matrix, 0.86602540378F * width, length, -0.5F * width).color(red, green, blue, 50).next();
+                vertexBuilder.vertex(matrix, 0.86602540378F * width, length, -0.5F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
                 vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
-                vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
-
-                vertexBuilder.vertex(matrix, 0.86602540378F * width, length, -0.5F * width).color(red, green, blue, 50).next();
-                vertexBuilder.vertex(matrix, 0.0F, length, 1.0F * width).color(red, green, blue, 50).next();
                 vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
 
+                vertexBuilder.vertex(matrix, 0.86602540378F * width, length, -0.5F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
+                vertexBuilder.vertex(matrix, 0.0F, length, 1.0F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
                 vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
-                vertexBuilder.vertex(matrix, 0.0F, length, 1.0F * width).color(red, green, blue, 50).next();
-                vertexBuilder.vertex(matrix, -0.86602540378F * width, length, -0.5F * width).color(red, green, blue, 50).next();
+
+                vertexBuilder.vertex(matrix, 0.0F, 0.0F, 0.0F).color(baseValue, baseValue, baseValue, 255).next();
+                vertexBuilder.vertex(matrix, 0.0F, length, 1.0F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
+                vertexBuilder.vertex(matrix, -0.86602540378F * width, length, -0.5F * width).color(rgb[0], rgb[1], rgb[2], 50).next();
             }
             GL11.glDepthMask(true);
             RenderSystem.disableAlphaTest();

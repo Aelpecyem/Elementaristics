@@ -90,6 +90,7 @@ public class Constants {
         public static final int EARTH_COLOR = 0x008700;
         public static final int AIR_COLOR = 0x00FFFF;
         public static final int POTENTIAL_COLOR = 0xE1E1E1;
+        public static final int POTENTIAL_LOW = 0x666666;
     }
 
     public static class Misc {

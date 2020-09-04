@@ -7,19 +7,21 @@ import de.aelpecyem.elementaristics.common.block.blockentity.BlockEntityBoilingB
 import de.aelpecyem.elementaristics.common.item.ItemLiberElementium;
 import de.aelpecyem.elementaristics.common.item.aspect.ItemAlchemy;
 import de.aelpecyem.elementaristics.common.item.aspect.ItemRiteDebugger;
+import de.aelpecyem.elementaristics.lib.Constants;
 import de.aelpecyem.elementaristics.lib.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
 
 public class ModObjects {
     public static final Item LIBER_ELEMENTIUM = new ItemLiberElementium();
 
-    public static final Item ALCHEMICAL_MATTER = new ItemAlchemy();
-    public static final Item SULFUR = new ItemAlchemy();
-    public static final Item MERCURY = new ItemAlchemy();
-    public static final Item ASBESTOS = new ItemAlchemy();
+    public static final Item ALCHEMICAL_MATTER = new ItemAlchemy(new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP));
+    public static final Item SULFUR = new ItemAlchemy(new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP));
+    public static final Item MERCURY = new ItemAlchemy(new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item ASBESTOS = new ItemAlchemy(new Item.Settings().group(Constants.ELEMENTARISTICS_GROUP));
 
     public static final Item RITE_DEBUGGER = new ItemRiteDebugger();
 

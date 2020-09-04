@@ -1,6 +1,10 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "elementaristics:item/alchemical_matter"
+    "layer0": "elementaristics:item/alchemical_matter/alchemical_matter_null",
+    "layer1": "elementaristics:item/alchemical_matter/alchemical_matter_fire",
+    "layer2": "elementaristics:item/alchemical_matter/alchemical_matter_water",
+    "layer3": "elementaristics:item/alchemical_matter/alchemical_matter_earth",
+    "layer4": "elementaristics:item/alchemical_matter/alchemical_matter_air"
   }
 }
