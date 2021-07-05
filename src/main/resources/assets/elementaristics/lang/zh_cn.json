@@ -1,0 +1,12 @@
+{
+  "comment_1": "ITEMS",
+  "item.elementaristics.liber_elementium": "自由：源质之书",
+  "item.elementaristics.liber_elementium.rite": "自由：源质之书 (仪式模式)",
+
+
+  "comment_9": "COMMAND STUFF",
+  "elementaristics.command.set_magan.success": "切换 %s 的游戏模式为  %d",
+  "comment_10": "BOOK STUFF",
+  "elementaristics.book.name": "自由：源质之书",
+  "elementaristics.book.landing": "Putting the square in the circle"
+}
